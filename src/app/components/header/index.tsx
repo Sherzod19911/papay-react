@@ -8,7 +8,7 @@ import { NavLink } from 'react-router-dom';
         <Container>
             <Stack flexDirection={"row"} 
             className='navbar_config' 
-            justifyContent={"space-betwen"}
+            justifyContent={"space-between"}
             >
                <Box>
                  <img src="/icons/papay.svg"/>
@@ -90,9 +90,7 @@ import { NavLink } from 'react-router-dom';
                         </Box>
                     </Stack>
                     <Box className="big_img">
-                      
-
-                    </Box>
+                      </Box>
 
                 </Stack>
         </Container>
