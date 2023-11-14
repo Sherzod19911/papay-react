@@ -1,0 +1,181 @@
+.footer_config {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 509px;
+    background: #2C261E;
+ 
+  }
+  
+  
+  
+  .footer_config .main_footer_container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-top: 91px;
+    margin-left: 131px;
+    width: 1144px;
+    height: 377px;
+  }
+  
+  .main_footer_container .footer_main_text {
+    position: relative;
+    width: 340px;
+    height: 97.225px;
+    margin-top: 19px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 34px; /* 212.5% */
+    color: #E3C08D;
+  }
+  
+  .main_footer_container .footer_contact_links{
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    width: 125px;
+    height: 15px;
+    margin-top: 12px;
+  }
+  
+  .main_footer_container .parts {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 118px;
+    height: 188px;
+    margin-left: 283px;
+  }
+  
+  
+  
+  .main_footer_container .parts_subject {
+    position: relative;
+    width: 109px;
+    height: 32px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 34px; /* 141.667% */
+    color: #C5C8C9;
+  }
+  .main_footer_container .divider {
+    position: relative;
+    width: 45px;
+    height: 1.91px;
+    margin-top: 5px;
+    background: #e3c08d;
+  }
+  
+  .main_footer_container .targets {
+    position: relative;
+    width: 118px;
+    height: 129px;
+    margin-top: 19px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 34px; /* 141.667% */
+    color: #C5C8C9;
+  }
+  
+   .footer_config .info {
+    position: relative;
+    width: 340px;
+    height: 206px;
+   
+  }
+  
+  .main_footer_container .find_us {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 297px;
+    height: 210px;
+    margin-left: 96px;
+  }
+  
+  .find_us .find {
+    position: relative;
+    width: 116px;
+    height: 32px;
+    font-family: "Popins";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 34px; /* 141.667% */
+    color: #c5c8c9;
+  }
+  
+  .find_us .divider {
+    position: relative;
+    width: 45px;
+    height: 1.91px;
+    margin-top: 5px;
+    background: #e3c08d;
+  }
+  
+  .find_us .details {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    width: 295px;
+    height: 33px;
+  }
+  
+  .find_us .detail_first {
+    position: relative;
+    width: 15px;
+    height: 32px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 34px; /* 212.5% */
+    color: #c5c8c9;
+  }
+  
+  .find_us .detail_second {
+    position: relative;
+    width: 269px;
+    height: 32px;
+    margin-left: 11px;
+  
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 34px; /* 212.5% */
+    color: #e3c08d;
+  }
+  
+  
+  
+  
+  .footer_config .liner {
+    position: relative;
+    width: 100%;
+    height: 0px;
+    margin-top: 86px;
+    border: 1px solid #c5c8c9;
+  }
+  
+  .footer_config .copyrights {
+    position: relative;
+    width: 344px;
+    height: 32px;
+    margin-top: 15px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 34px; /* 212.5% */
+    color: #E3C08D;
+  }
