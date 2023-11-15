@@ -1,41 +1,4 @@
-// import { Box, Container, Stack } from "@mui/material";
-// import React from "react";
 
-// export function Footer() {
-//     return <div className="footer_config" >
-//         <Container>
-//             <Stack 
-//             flexDirection={'column'}
-//             className="main_footer_container"
-//             >
-//                 <Stack flexDirection={'row'} style={{height: "242"}}>
-//                     <Stack className="info" flexDirection={'column'}>
-
-//                         <Box>
-//                             <img src="/public/footer/icons/papay_footer.svg" alt="Footer Icon" />
-//                         </Box>
-
-//                         <Box className="main_text">
-//                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do 
-//                         eiusmod tempor Sed ut perspiciatis unde omnis iste 
-//                         </Box>
-                      
-                   
-//                     <Stack className="contact_links">
-
-//                     </Stack>
-//                     </Stack>
-//                     <Stack></Stack>
-//                 </Stack>
-//                 <Box className="liner"></Box>
-//                 <Box className="copyrights">
-//                 Copyright Papays 2022, All right reserved.
-//                 </Box>
-               
-//             </Stack>
-//         </Container>
-//     </div>
-// }
 
 import { Container, Stack, Box } from '@mui/material';
 import React from 'react';
@@ -65,7 +28,7 @@ export function Footer () {
           </Stack>
           
           <Stack className='find_us'>    
-            <Box className='find'>Bizni Top</Box>
+            <Box className='find'>Find us</Box>
             <Box className='divider'></Box>
             <Stack className='details' sx={{mt: '19px'}}>
               <Box className='detail_first'>L.</Box>

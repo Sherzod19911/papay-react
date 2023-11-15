@@ -1,0 +1,53 @@
+.homepage .static_frame {
+    width: 100%;
+    background: #2C261E;
+
+}
+
+.homepage .personage_img.left {
+   width: 204px;
+   height: 200px;
+   background: url("/public/home/papays.png");
+   transform: matrix(1, 0, 0, 1, 0, 0);
+   background-size: cover;
+}
+
+
+.homepage .personage_img.right {
+    width: 204px;
+    height: 200px;
+    background: url('/public/home/papays.png');
+    transform: matrix(-1, 0, 0, 1, 0, 0);
+    background-size: cover;
+ }    
+
+ .homepage .static_box {
+    width: 101px;
+    height: 128px;    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+ }
+
+ .homepage .static_box .static_num  {
+   color: #FFF;
+   text-align: center;
+   font-family: Poppins;
+   font-size: 54px;
+   font-style: normal;
+   font-weight: 600;
+   line-height: normal;
+
+ }
+
+ .homepage .static_box .static_text {
+    color: #E3C08D;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+ }
+
