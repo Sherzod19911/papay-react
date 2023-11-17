@@ -64,7 +64,8 @@ export function TopRestaurants() {
                      <CardOverflow 
                      sx={{
                       display: "flex", 
-                      gap: 1.5, py: 1.5, 
+                      gap: 1.5, 
+                      py: 1.5, 
                       px: "var(--Card-padding)", 
                       borderTop: "1px solid"
                       }}
@@ -81,7 +82,7 @@ export function TopRestaurants() {
                                  right: "1rem",
                                  bottom: 45,
                                  transform: "translateY(50%)",
-                                 color: "rgba(0,0,0,.4)"
+                                 color: "rgba(0,0,0,.4)",
 
 
                               }}
