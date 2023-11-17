@@ -1,3 +1,7 @@
+.homepage {
+    background: #0B0E11;    
+}         
+
 .homepage .static_frame {
     width: 100%;
     background: #2C261E;
@@ -73,4 +77,4 @@
     display: flex;   
     background: #0B0E11;
 
-}           
+}  

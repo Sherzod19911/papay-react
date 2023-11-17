@@ -1,8 +1,8 @@
 import React from "react";
 import { Favorite, Visibility } from "@mui/icons-material";
 import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
-import { CardOverflow, Card, CssVarsProvider,AspectRatio, IconButton, Typography,Link } from "@mui/joy";
-import { Box, Container, Stack, } from "@mui/material";
+import { CardOverflow, Card, CssVarsProvider,AspectRatio, IconButton, Typography,Link, } from "@mui/joy";
+import { Box, Container, Stack, Button } from "@mui/material";
 import CallIcon from "@mui/icons-material/Call"
 
 
@@ -15,7 +15,7 @@ export function BestRestaurants() {
         style={{position: "absolute", left: "6%", transform: "rotate(360deg)"}}
         />
     
-      <Container sx={{ mt: "120px" }}>
+      <Container sx={{ paddingTop: "125px" }}>
         <Stack flexDirection={"column"} alignItems={"center"}>
           <Box  className="category_title">Zo’r Restaurantlar</Box>
           <Stack sx={{ mt: "43px" }}
@@ -358,18 +358,19 @@ export function BestRestaurants() {
                    }}
                    >
 
-                  <div>500</div>
-                 <Favorite sx={{ fontSize: 20, marginLeft: "5px"}} />
-                 </Typography>
-                        </Stack>
+                       <div>500</div>
+                      <Favorite sx={{ fontSize: 20, marginLeft: "5px"}} />
+                      </Typography>
+                      </Stack>
                      </CardOverflow>
                     </Card> 
-                  
-                  
-                  </CssVarsProvider>   
-               </Stack>    
+                 </CssVarsProvider>   
+               </Stack>  
+               <Stack flexDirection={"row"} justifyContent={"flex-end"} sx={{width: "100%", mt: "16px"}}>
+                <Button style={{background:"#1976D2",color:"#FFFFFF"}}>BARCHASINI KO’RISH</Button>  
+              </Stack>  
              </Stack>
           </Container>    
       </div>
-   );
+   );           
 }
