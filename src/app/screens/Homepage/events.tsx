@@ -15,7 +15,7 @@ export function Events() {
             author: "Abdurahmon Mufid",
             date: "2022/09/01",
             location: "Toshkent, Nurafshon ko'cha",
-            img: "/restaurant/restaurant_1.svg",
+            img: "/restaurant/restaurant_2.jpg",
         },
         {
             title: "Katta Chegirma endi Belissimoda",
@@ -23,15 +23,15 @@ export function Events() {
             author: "BelissimodUz",
             date: "2022/07/25",
             location: "Toshkent, Chilonzor",
-            img: "/restaurant/restaurant_1.svg",
+            img: "/restaurant/restaurant_2.jpg",  
         },
-        {
+        {        
             title: "Yangi hissiyotni his qilib ko'rmoqchimisiz?",
             desc: "Merhaba promokodi orqali 50% skidkani qo'lga kiriting",
             author: "Chicken House",
             date: "2022/09/10",
             location: "Toshkent, Qo'yliq",
-            img: "/restaurant/restaurant_1.svg",
+            img: "/restaurant/restaurant_2.jpg",
         },
         {
             title: "Yangicha Yondashuv Endi O'zbekistonda",
@@ -39,7 +39,7 @@ export function Events() {
             author: "Food City",
             date: "2022/08/01",
             location: "Toshkent, Yangi Qo'yliq bozori",
-            img: "/restaurant/restaurant_1.svg",
+            img: "/restaurant/restaurant_2.jpg",
         },
     ];
 
@@ -54,19 +54,19 @@ export function Events() {
                 <img
                   src={"/icons/arrow-right_1.svg"}
                   className={"swiper-button-prev"}
-                />
+                />    
                 <div className={" dot_frame_pagination swiper-pagination "}></div>
                 <img
                   src={"/icons/arrow-right_1.svg"}
                   className={"swiper-button-next"}
-                  style={{ transform: "rotate(-180deg)" }}
+                  style={{ transform: "rotate(180deg)" }}
                 />
               </Box>
               <Swiper
                 className={"events_info swiper-wrapper"}
                 slidesPerView={"auto"}
                 centeredSlides={true}
-                spaceBetween={30}
+                spaceBetween={30}    
                 navigation={{
                   nextEl: ".swiper-button-next",
                   prevEl: ".swiper-button-prev",
@@ -121,8 +121,8 @@ export function Events() {
                               </div>
                               <div className={"bott_info_main"}>
                                 <img
-                                  src={"/icons/location.jpg"}
-                                  style={{ marginRight: "10px" }}
+                                  src={"/icons/map-marked.svg"}         
+                                  style={{ marginRight: "10px" }}                
                                 />
                                 {value.location}
                               </div>

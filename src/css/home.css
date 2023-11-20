@@ -256,7 +256,7 @@
 .homepage .events_info .events_info_frame {
     position: relative;
     width: 579px;
-    height: 447px;
+    height: 433px;   
     display: flex;
     flex-direction: column;
     align-items: center;
