@@ -58,8 +58,8 @@ const product_list = Array.from(Array(8).keys());
                     <Swiper
                         className={"restaurant_avatars_wrapper"}
                         slidesPerView={7}
-                        centeredSlides={false}
-                        spaceBetween={30}
+                        centeredSlides={false}   
+                        spaceBetween={30}  
                         navigation={{
                             nextEl:".restaurant-next",
                             prevEl:".restaurant-prev",
@@ -232,6 +232,7 @@ const product_list = Array.from(Array(8).keys());
                                     <StarIcon style={{color: "#whitesmoke"}} />
                                 </div>
                             </Box>
+                            
                         )
                     })}
                 </Stack>
@@ -258,6 +259,7 @@ const product_list = Array.from(Array(8).keys());
                 </div>
                 </Box>
                 <Box className={"about_right"}>
+
                     {Array.from(Array(3).keys()).map((ele, index) => {
                         return (
                             <Box display={"flex"} flexDirection={"row"} key={index}>
