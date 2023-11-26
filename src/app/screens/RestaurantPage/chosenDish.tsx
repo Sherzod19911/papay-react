@@ -1,6 +1,6 @@
 import React,{ useState } from "react";
 import {Favorite,FavoriteBorder } from "@mui/icons-material";
-import { Box, Container, Pagination, Stack } from "@mui/material";
+import { Box, Container, Pagination,  Stack } from "@mui/material";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye"
 import Marginer from "../../components/marginer"
 import Button from "@mui/material/Button"
@@ -10,7 +10,7 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";       
-import { FreeMode, Navigation, Thumbs } from "swiper";
+import { FreeMode, Navigation,  Thumbs } from "swiper";
 import Checkbox from "@mui/material/Checkbox";
 import { Swiper, SwiperSlide } from "swiper/react";    
 
@@ -32,12 +32,12 @@ export function ChosenDish() {
                 modules={[FreeMode, Navigation, Thumbs]}
                 >
                      {chosen_list.map((ele) => {
-                        const image_path = `/others/lagmon.jpg`;
-                        return (
+                        const image_path = `/others/shashlik.jpg`;
+                        return (    
                             <SwiperSlide>
                                 <img 
                                 style={{width:"100%", height: "100%" }}
-                                src={image_path}
+                                src={image_path} 
                             />
                          </SwiperSlide>  
                         );
@@ -45,6 +45,56 @@ export function ChosenDish() {
                
     
                 </Swiper>
+
+
+                <Swiper
+            // onSwiper={setThumbsSwiper}
+            slidesPerView={3}
+            spaceBetween={30}
+            pagination={{
+              clickable: true,
+              
+            }}
+            loop={true}
+           
+            freeMode={true}
+            watchSlidesProgress={true}
+            modules={[FreeMode, Navigation, Thumbs]}
+            
+            className="mySwiper"
+            style={{ width: "450px", height: "107px", marginTop: "20px" }}>
+             {chosen_list.map((ele) => {
+              const image_path = "/others/shashlik.jpg";   
+              return (
+                <SwiperSlide>
+                  <img style={{ borderRadius: "15px", height: "107px",
+                    width: "160px"}} src={image_path} alt="smallSwiper" />
+                </SwiperSlide>
+              );
+            })}
+            </Swiper>
+
+               
+                {/* <Swiper
+            slidesPerView={3}
+            spaceBetween={20}
+            pagination={{
+              clickable: true,
+            }}
+            modules={[Pagination]}
+            className="mySwiper"
+          >
+            {chosen_list.map((ele) => {
+              const image_path = "/others/lagmon.jpg";
+              
+              return (
+                <SwiperSlide style={{ background: "#0b0e11" }}>
+                  <img src={image_path} />
+                </SwiperSlide>
+              );
+            })}
+          </Swiper> */}
+              
                
            </Stack>
             <Stack className={"chosen_dish_info_container"}>

@@ -803,14 +803,14 @@
   
   .chosen_dish_page .chosen_dish_slider {
     width: 48%;
-    height: 581px;
+    height: 670px;
   }
   
   .chosen_dish_page .dish_swiper {
     --swiper-navigation-color: #fff;
     --swiper-pagination-color: #fff;
-    width: 100%;
-    height: 1020px;
+    width: 611px;
+    height: 452px;
   }
   
   .chosen_dish_page .chosen_dish_info_container {
@@ -850,6 +850,17 @@
     line-height: 15px;
     color: #979797;
   }
+
+ 
+.chosen_dish_page .mySwiper {
+  width: 90%;
+}
+.chosen_dish_page .mySwiper img {
+  width: 140px;
+  height: 107px;
+  border-radius: 15px;
+  background-color: #0b0e11;
+}
   
   .chosen_dish_page .chosen_dish_info_box .rating_box {
     margin-top: 20px;
