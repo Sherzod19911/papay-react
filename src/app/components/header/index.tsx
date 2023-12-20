@@ -1,10 +1,17 @@
 import { Badge, Box, Button, Container, IconButton, Stack } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
  export function NavbarHome(props: any)  {
+
     // INITIALIZITIONS
     const [count, setCount] = useState(0);
+    const [value, setValue] = useState(true);
+
+    useEffect (() => {
+        setCount(count + 1)
+    }, [value]);
+
     return (
       <div className="home_navbar">
         <Container>
@@ -80,10 +87,10 @@ import { NavLink } from 'react-router-dom';
                         <img src='/icons/welcome.svg'/>
                         </Box>
                         <Box className="define_restaurant">
-                        {count}The Authentic Restaurant & Cafe
+                           The Authentic Restaurant & Cafe
                         </Box>
                         <Box className="timeline_sevice">
-                       24 soat xizmatingizdamiz.
+                       {count} soat xizmatingizdamiz.
                         </Box>
                         <Box sx={{mt:'90px'}}>
                             <Button
@@ -93,7 +100,7 @@ import { NavLink } from 'react-router-dom';
                             background: '#1976d2',
                             color:'#ffffff',}}
 
-                            onClick={() => setCount(count + 1)} 
+                            onClick={() => setValue(!value)} 
                             >
                             RO’YHATDAN O’TISH
                             </Button>
