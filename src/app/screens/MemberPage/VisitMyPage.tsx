@@ -19,11 +19,13 @@ import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import TViewer from "../../components/tuiEditor/TViewver";
+import { TuiEditor } from "../../components/tuiEditor/TuiEditor";
 
 export function VisitMyPage(props: any) {
     //INITIALIZIATION
-    const [value, setValue] = useState("6");                   
-            
+    const [value, setValue] = useState("3");                              
+                
     // HANDLERS
     const handleChange = (event: any, newValue: string) => {
       setValue(newValue);
@@ -81,12 +83,16 @@ export function VisitMyPage(props: any) {
   
                   <TabPanel value={"4"}>
                     <Box className={"menu_name"}>Maqola Yozish</Box>
-                    <Box className={"write_content"}></Box>
+                    <Box className={"write_content"}>
+                      <TuiEditor/>
+                    </Box>
                   </TabPanel>
   
                   <TabPanel value={"5"}>
                     <Box className={"menu_name"}>Tanlangan Maqola</Box>
-                    <Box className={"menu_content"}></Box>
+                    <Box className={"menu_content"}>
+                    <TViewer text={`<h3>Hello</h3>`}/>
+                    </Box>
                   </TabPanel>
   
                   <TabPanel value={"6"}>
@@ -101,7 +107,7 @@ export function VisitMyPage(props: any) {
                   <a onClick={() => setValue("2")} className="settings_btn">
                     <SettingsIcon />
                   </a>
-                  <Box
+                  <Box    
                     display={"flex"}
                     flexDirection={"column"}
                     alignItems={"center"}
