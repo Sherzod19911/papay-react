@@ -32,4 +32,4 @@ export const retrieveTrendBoarticles= createSelector(
 export const retrieveNewsBoarticles= createSelector(
     selectHomePage,
 (HomePage) => HomePage.topRestaurants
-);
+);     
