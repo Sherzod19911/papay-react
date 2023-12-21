@@ -11,10 +11,10 @@ import '../../../css/home.css';
 
 export function HomePage() {
     useEffect (() => {
-        console.log("componentDidMount => Data fetch");
-        return () => {
-            console.log("componentWillUnmountrocess")
-        };
+        // console.log("componentDidMount => Data fetch");
+        // return () => {
+        //     console.log("componentWillUnmountrocess")
+        // };
 
     }, []);
     return (
