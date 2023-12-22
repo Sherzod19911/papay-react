@@ -18,19 +18,19 @@ const HomePageSlice = createSlice({
         setTopRestaurants: (state, action)=> {
             state.topRestaurants = action.payload
         },
-        bestRestaurants: (state, action)=> {
+        setBestRestaurants: (state, action)=> {
             state.topRestaurants = action.payload
         },
-        trendProducts: (state, action)=> {
+        setTrendProducts: (state, action)=> {
             state.topRestaurants = action.payload
         },
-        bestBoarticles: (state, action)=> {
+        setBestBoarticles: (state, action)=> {
             state.topRestaurants = action.payload
         },
-        trendBoarticles: (state, action)=> {
+        setTrendBoarticles: (state, action)=> {
             state.topRestaurants = action.payload
         },
-        newsBoarticles: (state, action)=> {
+        setNewsBoarticles: (state, action)=> {
             state.topRestaurants = action.payload
         }
     }
@@ -38,10 +38,10 @@ const HomePageSlice = createSlice({
 
 export const {
     setTopRestaurants, 
-    bestRestaurants, 
-    trendBoarticles, 
-    bestBoarticles,
-    newsBoarticles
+    setBestRestaurants, 
+    setTrendBoarticles, 
+    setBestBoarticles,
+    setNewsBoarticles
 } = HomePageSlice.actions;
 
 const HomePageReducer = HomePageSlice.reducer;

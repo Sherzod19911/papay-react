@@ -30,6 +30,7 @@ const topRestaurantRetriever = createSelector(
 
 
 export function TopRestaurants() {
+  //INITIALIZITION
 
   const { topRestaurants } = useSelector(topRestaurantRetriever);
   console.log("tiprestaurants::", topRestaurants);
@@ -148,7 +149,7 @@ export function TopRestaurants() {
                           }}
                          >
 
-                        <div>{ele.mb_likes}</div>
+                        <div> {ele.mb_likes} </div>
                        <Favorite sx={{ fontSize: 20, marginLeft: "5px"}}/>
                        </Typography>
                      </Stack>

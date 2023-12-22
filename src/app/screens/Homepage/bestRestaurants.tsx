@@ -4,11 +4,28 @@ import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
 import { CardOverflow, Card, CssVarsProvider,AspectRatio, IconButton, Typography,Link, } from "@mui/joy";
 import { Box, Container, Stack, Button } from "@mui/material";
 import CallIcon from "@mui/icons-material/Call"
+//REDUX
+import { useSelector} from "react-redux";
+import { createSelector } from "reselect";
+import {retrieveBestRestaurants } from "../../screens/Homepage/selector"
+import { Restaurant } from "../../../css/types/user";
+import RestaurantApiService from "../../apiServices/restaurantApiService";
+import { serviceApi } from "../../../lb/config";
+
+//REDUX SELECTOR
+const bestRestaurantRetriever = createSelector(
+  retrieveBestRestaurants,
+  (bestRestaurants) => ({
+    bestRestaurants,
+  })
+);
+
 
 
 
 
 export function BestRestaurants() {
+  const { bestRestaurants } = useSelector(bestRestaurantRetriever);
     return (
     <div className="best_restaurant_frame">
         <img src={"icons/line_group.svg"}
@@ -19,12 +36,12 @@ export function BestRestaurants() {
         <Stack flexDirection={"column"} alignItems={"center"}>
           <Box  className="category_title">Zo’r Restaurantlar</Box>
           <Stack sx={{ mt: "43px" }}
-          flexDirection={"row"}>   
-
-             <CssVarsProvider>
-
-              {/* The first restaurant */}
-
+          flexDirection={"row"}>  
+          {bestRestaurants.map((ele: Restaurant) => {
+             const image_path = `${serviceApi}/${ele.mb_image}`;
+            return(
+              <CssVarsProvider>
+                
                <Card    
                 variant="outlined"   
                  sx={{ minHeight: 433,   
@@ -36,7 +53,7 @@ export function BestRestaurants() {
                   <CardOverflow>
                        <AspectRatio ratio="1">
                        <img
-                         src="restaurant/burak_1.jpg"
+                         src={image_path}
                         alt=""/>       
                        </AspectRatio>
                        <IconButton
@@ -67,7 +84,7 @@ export function BestRestaurants() {
                  </CardOverflow>
 
                  <Typography level = "h2" sx={{ fontsize: "md", mt: 2 }} >
-                  Texas De Brazil resataurant
+                  {ele.mb_nick} restaurant
                  </Typography>
 
                  <Typography  sx={{mt: 0.5, mb: 2 }}>
@@ -76,7 +93,7 @@ export function BestRestaurants() {
                       startDecorator={<LocationOnRoundedIcon />}
                       textColor="neutral.700"
                       >
-                        Toshkent Yunusabod 4-1
+                        {ele.mb_address}
                   </Link> 
                   </Typography>
 
@@ -86,7 +103,7 @@ export function BestRestaurants() {
                       startDecorator={<CallIcon />}
                       textColor="neutral.700"
                       >
-                        +998972886654
+                        {ele.mb_phone}
                   </Link> 
                   </Typography>
                   <CardOverflow
@@ -113,7 +130,7 @@ export function BestRestaurants() {
                       flexDirection: "row" 
                     }}
                      >
-                    100 {" "}      
+                    {ele.mb_views}     
                     <Visibility
                       sx={{ 
                        fontSize: 20, 
@@ -130,15 +147,25 @@ export function BestRestaurants() {
                    }}
                    >
 
-                  <div>500</div>
+                  <div>{ele.mb_likes}</div>
                  <Favorite sx={{ fontSize: 20, marginLeft: "5px"}} />
                  </Typography>
                         </Stack>
                      </CardOverflow>
                     </Card> 
 
-                   {/* The Second restaurant */}
+              </CssVarsProvider>
 
+            )
+          })} 
+
+             
+
+              {/* The first restaurant */}
+
+
+                   {/* The Second restaurant */}
+{/* 
                    <Card    
                 variant="outlined"   
                  sx={{ minHeight: 433,   
@@ -249,10 +276,10 @@ export function BestRestaurants() {
                  </Typography>
                         </Stack>
                      </CardOverflow>
-                    </Card> 
+                    </Card>  */}
 
                     {/* The Third restaurant */}
-
+{/* 
                     <Card    
                 variant="outlined"   
                  sx={{ minHeight: 433,   
@@ -363,8 +390,8 @@ export function BestRestaurants() {
                       </Typography>
                       </Stack>
                      </CardOverflow>
-                    </Card> 
-                 </CssVarsProvider>   
+                    </Card>  */}
+                   
                </Stack>  
                <Stack flexDirection={"row"} justifyContent={"flex-end"} sx={{width: "100%", mt: "16px"}}>
                 <Button style={{background:"#1976D2",color:"#FFFFFF"}}>BARCHASINI KO’RISH</Button>  
