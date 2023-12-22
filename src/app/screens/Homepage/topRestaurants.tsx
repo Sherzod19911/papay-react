@@ -10,8 +10,29 @@ import CardOverflow from "@mui/joy/CardOverflow";
 import IconButton from "@mui/joy/IconButton";
 import { Favorite } from "@mui/icons-material";
 import VisibilityIcon from '@mui/icons-material/LocationOnRounded';
+//REDUX
+import { useSelector} from "react-redux";
+import { createSelector } from "reselect";
+
+import {retrieveTopRestaurants } from "../../screens/Homepage/selector"
+import { Restaurant } from "../../../css/types/user";
+import { serviceApi } from "../../../lb/config";
+
+
+//REDUX SELECTOR
+const topRestaurantRetriever = createSelector(
+  retrieveTopRestaurants,
+  (topRestaurants) => ({
+    topRestaurants,
+  })
+);
+
+
 
 export function TopRestaurants() {
+
+  const { topRestaurants } = useSelector(topRestaurantRetriever);
+  console.log("tiprestaurants::", topRestaurants);
     return (
         <div className="top_restaurant_frame">
            <Container>
@@ -27,11 +48,15 @@ export function TopRestaurants() {
                 right="16px"
                  >
    
-               <CssVarsProvider>
+              
                 
-                   {/* The first restaurants vs codes */}
+                   
 
-                <Card
+                {topRestaurants.map((ele: Restaurant) => {
+                  const image_path = `${serviceApi}/${ele.mb_image}`;
+                  return (
+                  <CssVarsProvider key={ele._id}>
+                    <Card
                  sx={{ minHeight: "430px",   
                  width: 325, 
                  marginRight: "35px", cursor: "pointer" 
@@ -39,12 +64,12 @@ export function TopRestaurants() {
                  >    
                    <CardCover>
                       <img
-                         src="/restaurant/restaurant_1.png"
+                         src={image_path}
                          loading="lazy"
                          alt=""
                       />
                     </CardCover>
-                    <CardCover
+                    <CardCover     
                         sx={{
                     background:
                           'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 300px)',
@@ -52,13 +77,13 @@ export function TopRestaurants() {
                     />
                     <CardContent sx={{ justifyContent: 'flex-end' }}>
                      <Typography level="h2" fontSize="lg" textColor="#fff" mb={"1"}>
-                      TOP Restauranlar
+                   {ele.mb_nick}
                     </Typography>
                     <Typography
                        startDecorator={<LocationOnRoundedIcon />}
                        textColor="neutral.300"
                       >
-                     Tashkent, Yunus Abad 4-1
+                    {ele.mb_address}
                      </Typography>
                      </CardContent>
                      <CardOverflow 
@@ -87,7 +112,14 @@ export function TopRestaurants() {
 
                               }}
                             >
-                            <Favorite style={{ fill: "white"}}/>
+                            <Favorite 
+                            style={{
+                              fill: 
+                              ele?.mb_liked && ele?.mb_liked[0].my_favorite
+                              ? "red"
+                              : "white",
+                            }}
+                            />
 
                             </IconButton>
                            <Stack sx={{flexDirection: "row"}}>
@@ -99,7 +131,7 @@ export function TopRestaurants() {
                             alignItems: "center",
                             display: "flex" }}
                            >
-                          100 {" "}
+                          {ele.mb_views}
                           <VisibilityIcon 
                             sx={{ 
                              fontSize: 20, 
@@ -116,17 +148,22 @@ export function TopRestaurants() {
                           }}
                          >
 
-                        <div>50</div>
+                        <div>{ele.mb_likes}</div>
                        <Favorite sx={{ fontSize: 20, marginLeft: "5px"}}/>
                        </Typography>
                      </Stack>
                    </CardOverflow>
 
                   </Card>
+                     </CssVarsProvider>)
+                  
+                })}
+
+               
 
                    {/* The Second restaurants vs codes */}
 
-                   <Card
+                   {/* <Card
                  sx={{ minHeight: "430px", 
                  width: 325, 
                  marginRight: "35px", cursor: "pointer" 
@@ -216,11 +253,11 @@ export function TopRestaurants() {
                      </Stack>
                    </CardOverflow>
 
-                  </Card>
+                  </Card> */}
 
                    {/* The Third restaurants vs codes */}
 
-                   <Card
+                   {/* <Card
                  sx={{ minHeight: "430px", 
                  width: 325, 
                  marginRight: "35px", cursor: "pointer" 
@@ -310,8 +347,8 @@ export function TopRestaurants() {
                      </Stack>
                    </CardOverflow>
 
-                  </Card>
-                </CssVarsProvider>
+                  </Card> */}
+              
               </Stack>
             </Stack>
           </Container>
