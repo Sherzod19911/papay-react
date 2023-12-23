@@ -1,7 +1,7 @@
 import axios from "axios";
 import assert from "assert";
 import { Definer } from "../../lb/Definer";
-import { serviceApi } from "../../lb/config";
+import { serverApi } from "../../lb/config";
 import { Restaurant } from "../../css/types/user";
 import { SearchObj } from "../../css/types/others";
 
@@ -9,7 +9,7 @@ import { SearchObj } from "../../css/types/others";
 class RestaurantApiService {
     private readonly path: string;
     constructor () {
-        this.path = serviceApi;
+        this.path = serverApi;
     }
  async getTopRestaurants () {
        try {

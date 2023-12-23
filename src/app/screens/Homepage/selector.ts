@@ -1,6 +1,6 @@
 import { createSelector } from "@reduxjs/toolkit"
 import { AppRootState } from "../../../css/types/screen"
-import { StaticDatePicker } from "@mui/lab"
+
 
 const selectHomePage = (state: AppRootState) => state.homePage;
 
@@ -11,25 +11,25 @@ export const retrieveTopRestaurants = createSelector(
 
 export const retrieveBestRestaurants = createSelector(
     selectHomePage,
-(HomePage) => HomePage.topRestaurants
+(HomePage) => HomePage.bestRestaurants
 );
 
 export const retrieveTrendProducts = createSelector(
     selectHomePage,
-(HomePage) => HomePage.topRestaurants
+(HomePage) => HomePage.trendProducts
 );
 
 export const retrieveBestBoarticles = createSelector(
     selectHomePage,
-(HomePage) => HomePage.topRestaurants
+(HomePage) => HomePage.bestBoarticles
 );
 
 export const retrieveTrendBoarticles= createSelector(
     selectHomePage,
-(HomePage) => HomePage.topRestaurants
+(HomePage) => HomePage.trendBoarticles
 );
 
 export const retrieveNewsBoarticles= createSelector(
     selectHomePage,
-(HomePage) => HomePage.topRestaurants
+(HomePage) => HomePage.newsBoarticles
 );     

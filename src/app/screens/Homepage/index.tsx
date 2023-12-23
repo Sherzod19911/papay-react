@@ -58,7 +58,7 @@ const { setTopRestaurants,  setBestRestaurants} = actionDispatch(useDispatch());
 
     }, []);
     return (
-    <div className="homepage">
+    <div className="homepage">           
         <Statistics/>
         <TopRestaurants/>
         <BestRestaurants/>

@@ -16,7 +16,7 @@ import { createSelector } from "reselect";
 
 import {retrieveTopRestaurants } from "../../screens/Homepage/selector"
 import { Restaurant } from "../../../css/types/user";
-import { serviceApi } from "../../../lb/config";
+import { serverApi } from "../../../lb/config";
 
 
 //REDUX SELECTOR
@@ -54,7 +54,7 @@ export function TopRestaurants() {
                    
 
                 {topRestaurants.map((ele: Restaurant) => {
-                  const image_path = `${serviceApi}/${ele.mb_image}`;
+                  const image_path = `${serverApi}/${ele.mb_image}`;
                   return (
                   <CssVarsProvider key={ele._id}>
                     <Card

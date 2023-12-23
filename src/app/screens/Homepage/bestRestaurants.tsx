@@ -10,7 +10,7 @@ import { createSelector } from "reselect";
 import {retrieveBestRestaurants } from "../../screens/Homepage/selector"
 import { Restaurant } from "../../../css/types/user";
 import RestaurantApiService from "../../apiServices/restaurantApiService";
-import { serviceApi } from "../../../lb/config";
+import { serverApi } from "../../../lb/config";
 
 //REDUX SELECTOR
 const bestRestaurantRetriever = createSelector(
@@ -22,9 +22,11 @@ const bestRestaurantRetriever = createSelector(
 
 
 
-
+    
 
 export function BestRestaurants() {
+  console.log("best");
+  // INITIALIZITION
   const { bestRestaurants } = useSelector(bestRestaurantRetriever);
     return (
     <div className="best_restaurant_frame">
@@ -37,8 +39,9 @@ export function BestRestaurants() {
           <Box  className="category_title">Zo’r Restaurantlar</Box>
           <Stack sx={{ mt: "43px" }}
           flexDirection={"row"}>  
-          {bestRestaurants.map((ele: Restaurant) => {
-             const image_path = `${serviceApi}/${ele.mb_image}`;
+            {bestRestaurants.map((ele: Restaurant, index: number) => {
+              const image_path = `${serverApi}/${ele.mb_image}`;
+          
             return(
               <CssVarsProvider>
                 
@@ -48,7 +51,7 @@ export function BestRestaurants() {
                  minWidth: 325, 
                  mr: "35px" 
                           
-                 }}
+                 }}    
               >      
                   <CardOverflow>
                        <AspectRatio ratio="1">
@@ -352,7 +355,7 @@ export function BestRestaurants() {
                       gap: 1.5, 
                       py: 1.5, 
                       px: "var(--Card-padding)", 
-                      borderTop: "1px solid",
+                      borderTop: "1px solid",       
                       borderColor: "neutral.outlinedBorder",
                       bgcolor: "background.level1"
                       }}
@@ -401,3 +404,4 @@ export function BestRestaurants() {
       </div>
    );           
 }
+
