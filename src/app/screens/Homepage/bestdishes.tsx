@@ -56,6 +56,8 @@ export function BestDishes() {
           <Stack sx={{ mt: "43px" }} flexDirection={"row"}>
             {trendProducts.map((product: Product) => {
               const image_path = `${serverApi}/${product.product_images[0]}`;
+              console.log("images::",image_path); // Check the output in the console to ensure it forms a correct URL.
+              
               const size_volume =
                 product.product_collection === "drink"
                   ? product.product_volume + "l"
@@ -64,18 +66,18 @@ export function BestDishes() {
                 <Box className="dish_box">
                   <Stack
                     className="dish_img"
-                    sx={{
+                    style={{
                       backgroundImage: `url(${image_path})`,
                     }}
                   >
                     <div className={"dish_sale"}>{size_volume}</div>
                     <div className={"view_btn"}>
-                      <div onClick={() => chosenDishHandler(product._id)}>
+                     // <div onClick={() => chosenDishHandler(product._id)}>
                         Batafsil ko'rish
                       </div>
                       <img
-                       // src={"/icons/arrow_right.svg"}
-                       src={"/restaurant/burak_1.jpg"}
+                        src={"/icons/arrow_right.svg"}
+                       //src={"/restaurant/burak_1.jpg"}
 
                         style={{ marginLeft: "9px" }}
                       />

@@ -13,7 +13,7 @@ import { useDispatch, useSelector} from "react-redux";
 import {Dispatch} from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
 import {setTopRestaurants, setBestRestaurants, } from "../../screens/Homepage/slice"
-import {retrieveTopRestaurants } from "../../screens/Homepage/selector"
+//import {retrieveTopRestaurants } from "../../screens/Homepage/selector"
 import { Restaurant } from "../../../css/types/user";
 import RestaurantApiService from "../../apiServices/restaurantApiService";
 
