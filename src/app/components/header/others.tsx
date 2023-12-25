@@ -71,7 +71,9 @@ import { NavLink } from 'react-router-dom';
                         </IconButton>
                     </Box>
                     <Box>
-                        <Button variant='contained' style={{color: "#ffffff", background: "#1976D2"}}>
+                        <Button variant='contained' style={{color: "#ffffff", background: "#1976D2"}}
+                           onClick = {props.handleLoginOpen}
+                        >
                         KIRISH
                         </Button>
                     </Box>

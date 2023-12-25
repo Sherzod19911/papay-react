@@ -1,6 +1,7 @@
 import { Badge, Box, Button, Container, IconButton, Stack } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { sweetTopSuccessAlert } from '../../../lb/sweetAlert';
 
  export function NavbarHome(props: any)  {
 
@@ -75,7 +76,13 @@ import { NavLink } from 'react-router-dom';
                         </IconButton>
                     </Box>
                     <Box>
-                        <Button variant='contained' style={{color: "#ffffff", background: "#1976D2"}}>
+                        <Button 
+                        variant='contained' 
+                        style={{color: "#ffffff", background: "#1976D2"}}
+                       // onClick={() => alert("clicked")}
+                      // onClick={() => sweetTopSuccessAlert("clicked", 3000)}
+                      onClick = {props.handleLoginOpen}
+                        >
                         KIRISH
                         </Button>
                     </Box>
@@ -99,8 +106,10 @@ import { NavLink } from 'react-router-dom';
                             height: "60px", 
                             background: '#1976d2',
                             color:'#ffffff',}}
+                            onClick = {props.handleSignUpOpen }
 
                             // onClick={() => setValue(!value)} 
+                               // onClick={() => alert("clicked")}
                             >
                             RO’YHATDAN O’TISH
                             </Button>

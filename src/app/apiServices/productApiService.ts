@@ -5,9 +5,9 @@ import { Definer } from "../../lb/Definer";
 import { ProductSearchObj } from "../../css/types/others";
 import { Product } from "../../css/types/product";
 
+     
 
-
-class ProductApiService {
+class ProductApiService {     
   private readonly path: string;
 
   constructor() {
