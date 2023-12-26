@@ -1,9 +1,12 @@
-import { serverApi } from "../../lb/config";
+import { serverApi } from "../../lib/config";
 import assert from "assert";
 import axios from "axios";
-import { Definer } from "../../lb/Definer";
+import { Definer } from "../../lib/Definer";
 import { Member } from "../../css/types/user";
 class MemberApiService {
+  // logOutRequest() {
+  //   throw new Error('Method not implemented.');
+  // }
   private readonly path: string;
 
   constructor () {
@@ -51,8 +54,29 @@ class MemberApiService {
       throw err;
     }
   }
-       
 
+    
+  
+  public async logOutRequest() {
+    try {
+      const result = await axios.get(this.path+"/logout", {
+        withCredentials: true,
+      });
+
+      assert.ok(result?.data, Definer.general_err1);
+      assert.ok(result?.data?.state != "fail", result?.data?.message);
+      localStorage.removeItem("member_data");
+      console.log("state:", result.data.state);
+
+      const logout_result = result.data.state;     
+      return logout_result == "success";    
+    } catch (err: any) {
+      console.log(`ERROR ::: logOutRequest ${err.message}`);
+      throw err;
+    }
+  }
+       
+   
   
  
 }

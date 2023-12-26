@@ -28,7 +28,7 @@ export function HomePage() {
 const { setTopRestaurants,  setBestRestaurants} = actionDispatch(useDispatch());
 //const { topRestaurants } = useSelector(topRestaurantRetriever);
 
-//console.log("tiprestaurants::", topRestaurants);
+//console.log("toprestaurants::", topRestaurants);
 //selector: store => data
 
 

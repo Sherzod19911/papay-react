@@ -14,7 +14,7 @@ import { Product } from "../../../css/types/product";
 import ProductApiService from "../../apiServices/productApiService";
 import { retrieveTrendProducts } from "./selector";
 import { createSelector } from "reselect";
-import { serverApi } from "../../../lb/config";
+import { serverApi } from "../../../lib/config";
 import { useHistory } from "react-router-dom";
 
 /** REDUX SLICE */

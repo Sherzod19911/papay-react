@@ -9,9 +9,9 @@ import LoginIcon from "@mui/icons-material/Login";
 import {
     sweetErrorHandling,
     sweetTopSuccessAlert,
-  } from "../../../lb/sweetAlert";
+  } from "../../../lib/sweetAlert";
   import MemberApiService from "../../apiServices/memberApiServices";
-  import { Definer } from "../../../lb/Definer";
+  import { Definer } from "../../../lib/Definer";
   import assert from "assert";
 
 
@@ -131,7 +131,7 @@ export default function AuthenticationModal(props: any) {
             direction={"row"}
             sx={{ width: "800px" }}
           >
-            <ModalImg src={"/src/app/components/auth/password.jpeg"} alt="camera" />
+         <ModalImg src={"/auth/password.jpeg"} alt="camera" />
             <Stack sx={{ marginLeft: "69px", alignItems: "center" }}>
               <h2>SignUp Form</h2>
               <TextField
@@ -179,7 +179,7 @@ export default function AuthenticationModal(props: any) {
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
-          timeout: 500,
+          timeout: 500,     
         }}
       >
         <Fade in={props.loginOpen}>
@@ -188,7 +188,9 @@ export default function AuthenticationModal(props: any) {
             direction={"row"}
             sx={{ width: "700px" }}
           >
-            <ModalImg src={"/auth/password.jpeg"} alt="camera" />
+
+           <ModalImg src={"/auth/password.jpeg"} alt="camera" />
+            {/* <ModalImg src={"/auth/password.jpeg"} alt="camera" /> */}
             <Stack
               sx={{
                 marginLeft: "65px",
@@ -228,3 +230,5 @@ export default function AuthenticationModal(props: any) {
     </div>
   );
 }
+
+

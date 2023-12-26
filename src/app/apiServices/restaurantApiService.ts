@@ -1,7 +1,7 @@
 import axios from "axios";
 import assert from "assert";
-import { Definer } from "../../lb/Definer";
-import { serverApi } from "../../lb/config";
+import { Definer } from "../../lib/Definer";
+import { serverApi } from "../../lib/config";
 import { Restaurant } from "../../css/types/user";
 import { SearchObj } from "../../css/types/others";
 

@@ -10,7 +10,7 @@ import { createSelector } from "reselect";
 import {retrieveBestRestaurants } from "../../screens/Homepage/selector"
 import { Restaurant } from "../../../css/types/user";
 import RestaurantApiService from "../../apiServices/restaurantApiService";
-import { serverApi } from "../../../lb/config";
+import { serverApi } from "../../../lib/config";
 
 //REDUX SELECTOR
 const bestRestaurantRetriever = createSelector(

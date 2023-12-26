@@ -1,7 +1,7 @@
-import { serverApi } from "../../lb/config";
+import { serverApi } from "../../lib/config";
 import assert from "assert";
 import axios from "axios";
-import { Definer } from "../../lb/Definer";
+import { Definer } from "../../lib/Definer";
 import { ProductSearchObj } from "../../css/types/others";
 import { Product } from "../../css/types/product";
 
