@@ -3,6 +3,7 @@ import assert from "assert";
 import axios from "axios";
 import { Definer } from "../../lib/Definer";
 import { Member } from "../../css/types/user";
+import { MemberLiken } from "../../css/types/others";
 class MemberApiService {
   // logOutRequest() {
   //   throw new Error('Method not implemented.');
@@ -76,7 +77,23 @@ class MemberApiService {
     }
   }
        
-   
+   public async memberLikeTarget(data: any) {
+    try {
+      const url = "/member-liken",
+      result = await axios.post(this.path+url, data, { 
+        withCredentials: true
+      });
+      assert.ok(result?.data, Definer.general_err1);
+      assert.ok(result?.data?.state != 'fail', result?.data?.message);
+      console.log('state:', result.data.data);
+       const like_result: MemberLiken = result.data.data;
+       return like_result;
+
+    }catch(err: any)  {
+      console.log(`ERROR ::: memberLikeTarget ${err.message}`);
+      throw err;
+    }
+   }
   
  
 }

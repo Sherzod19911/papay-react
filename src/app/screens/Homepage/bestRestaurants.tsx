@@ -77,10 +77,13 @@ export function BestRestaurants() {
                               }}
                             >
                             <Favorite 
-                                style={{
-                                   color: "white"
-                                  }}
-                                />
+                            style={{
+                              fill: 
+                              ele?.mb_liked && ele?.mb_liked[0]?.my_favorite
+                              ? "red"
+                              : "white",
+                            }}
+                            />
 
                             </IconButton> 
 
@@ -98,7 +101,7 @@ export function BestRestaurants() {
                       >
                         {ele.mb_address}
                   </Link> 
-                  </Typography>
+                  </Typography>      
 
                   <Typography  sx={{mt: 0.5, mb: 2 }}>
                   <Link

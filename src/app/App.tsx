@@ -43,7 +43,7 @@ function App() {
     const open = Boolean(anchorEl);
    
 
-    useEffect (() => {
+    useEffect (() => {     
       console.log("=== useEffect: App ===");
       const memberDataJson: any = localStorage.getItem("member_data")
       ? localStorage.getItem("member_data")

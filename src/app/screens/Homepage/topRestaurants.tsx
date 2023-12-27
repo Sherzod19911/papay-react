@@ -1,5 +1,5 @@
 import { Box, Container, Stack } from "@mui/material";
-import React from "react";
+import React  from "react";
 import Card from '@mui/joy/Card';
 import CardCover from '@mui/joy/CardCover';
 import CardContent from '@mui/joy/CardContent';
@@ -17,6 +17,15 @@ import { createSelector } from "reselect";
 import {retrieveTopRestaurants } from "../../screens/Homepage/selector"
 import { Restaurant } from "../../../css/types/user";
 import { serverApi } from "../../../lib/config";
+import { sweetErrorHandling } from "../../../lib/sweetAlert";
+
+import { Definer } from "../../../lib/Definer";
+import assert from "assert";
+import MemberApiService from "../../apiServices/memberApiServices";
+import { useRef } from "react";
+import { MemberLiken } from "../../../css/types/others";
+import { useHistory } from "react-router-dom";
+
 
 
 //REDUX SELECTOR
@@ -31,11 +40,41 @@ const topRestaurantRetriever = createSelector(
 
 export function TopRestaurants() {
   //INITIALIZITION
-
+  const history = useHistory();
   const { topRestaurants } = useSelector(topRestaurantRetriever);
   console.log("toprestaurants::", topRestaurants);
-    return (
-        <div className="top_restaurant_frame">
+  const refs: any = useRef([]);
+
+         /** HANDLERS */    
+
+         const chosenRestaurantHandler = (id: string) => {
+          history.push(`/restaurant/${id}`);
+         }
+         const targetLikeTop =  async (e: any, id: string) => {
+          try {
+             assert.ok(localStorage.getItem("member_data"), Definer.auth_err1);
+             const memberService = new MemberApiService();
+              const like_result: any = await memberService.memberLikeTarget({
+                like_ref_id: id, 
+                group_type: 'member'
+              });
+              assert.ok(like_result, Definer.general_err1);
+              if(like_result.like_status >0) {
+                e.target.style.fill = 'red';
+                refs.current[like_result.like_ref_id].innerHTML++;
+
+
+              }else {
+                e.target.style.fill = 'white';
+              }
+
+          }catch(err: any) {
+            console.log(`ERROR :::targetLikeTop ${err.message}`);
+            sweetErrorHandling(err).then();
+
+                  }}
+         return (
+            <div className="top_restaurant_frame">
            <Container>
               <Stack
                  flexDirection={"column"}
@@ -46,7 +85,7 @@ export function TopRestaurants() {
                 <Stack
                 sx={{ mt: "43px" }}
                 flexDirection={"row"}
-                right="16px"
+                right="16px"       
                  >
    
               
@@ -57,11 +96,11 @@ export function TopRestaurants() {
                   const image_path = `${serverApi}/${ele.mb_image}`;
                   return (
                   <CssVarsProvider key={ele._id}>
-                    <Card
+                    <Card onClick = {() => chosenRestaurantHandler(ele._id)}
                  sx={{ minHeight: "430px",   
                  width: 325, 
                  marginRight: "35px", cursor: "pointer" 
-                 }}
+                 }}      
                  >    
                    <CardCover>
                       <img
@@ -88,7 +127,7 @@ export function TopRestaurants() {
                      </Typography>
                      </CardContent>
                      <CardOverflow 
-                     sx={{
+                     sx={{     
                       display: "flex", 
                       gap: 1.5, 
                       py: 1.5, 
@@ -114,9 +153,10 @@ export function TopRestaurants() {
                               }}
                             >
                             <Favorite 
+                            onClick={(e) => targetLikeTop(e, ele._id)}
                             style={{
                               fill: 
-                              ele?.mb_liked && ele?.mb_liked[0]?.my_favorite
+                              ele?.me_liked && ele?.me_liked[0]?.my_favorite
                               ? "red"
                               : "white",
                             }}
@@ -149,7 +189,11 @@ export function TopRestaurants() {
                           }}
                          >
 
-                        <div> {ele.mb_likes} </div>
+                        <div
+                         ref={(element) => refs.current[ele._id] = element}
+                         > 
+                         {ele.mb_likes} 
+                         </div>
                        <Favorite sx={{ fontSize: 20, marginLeft: "5px"}}/>
                        </Typography>
                      </Stack>
@@ -162,196 +206,9 @@ export function TopRestaurants() {
 
                
 
-                   {/* The Second restaurants vs codes */}
-
-                   {/* <Card
-                 sx={{ minHeight: "430px", 
-                 width: 325, 
-                 marginRight: "35px", cursor: "pointer" 
-                 }}
-                 >
-                   <CardCover>   
-                      <img
-                         src="/restaurant/restaurant_2.png"
-                         loading="lazy"
-                         alt=""
-                      />
-                    </CardCover>
-                    <CardCover
-                        sx={{
-                    background:
-                          'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 300px)',
-                     }}
-                    />
-                    <CardContent sx={{ justifyContent: 'flex-end' }}>
-                     <Typography level="h2" fontSize="lg" textColor="#fff" mb={"1"}>
-                      TOP Restauranlar
-                    </Typography>
-                    <Typography
-                       startDecorator={<LocationOnRoundedIcon />}
-                       textColor="neutral.300"
-                      >
-                     Tashkent, Yunus Abad 4-1
-                     </Typography>
-                     </CardContent>
-                     <CardOverflow 
-                     sx={{
-                      display: "flex", 
-                      gap: 1.5, py: 1.5, 
-                      px: "var(--Card-padding)", 
-                      borderTop: "1px solid"
-                      }}
-                      >
-                      <IconButton
-                         aria-label="Like minimal photography" 
-                         size="md" 
-                         variant="solid" 
-                         color="neutral"
-                              sx={{
-                                 position: "absolute",
-                                 zIndex: 2,
-                                 borderRadius: "50%",
-                                 right: "1rem",
-                                 bottom: 45,
-                                 transform: "translateY(50%)",
-                                 color: "rgba(0,0,0,.4)"
-
-
-                              }}
-                            >
-                            <Favorite style={{ fill: "white"}}/>
-
-                            </IconButton>
-                           <Stack sx={{flexDirection: "row"}}>
-                        <Typography 
-            
-                          sx={{
-                            fontWeight: "md", 
-                            color: "neutral.300", 
-                            alignItems: "center",
-                            display: "flex" }}
-                           >
-                          100 {" "}
-                          <VisibilityIcon 
-                            sx={{ 
-                             fontSize: 20, 
-                             marginLeft: "5px" }}/>
-                         </Typography>
-
-                         <Box sx={{ width: 2, bgcolor: "divider", ml: "6px", mr: "6px"}}/>
-                        <Typography 
-                          sx={{ 
-                           fontWeight: "md", 
-                           color: "neutral.300", 
-                           alignItems: "center", 
-                           display: "flex" 
-                          }}
-                         >
-
-                        <div>50</div>
-                       <Favorite sx={{ fontSize: 20, marginLeft: "5px"}}/>
-                       </Typography>
-                     </Stack>
-                   </CardOverflow>
-
-                  </Card> */}
-
-                   {/* The Third restaurants vs codes */}
-
-                   {/* <Card
-                 sx={{ minHeight: "430px", 
-                 width: 325, 
-                 marginRight: "35px", cursor: "pointer" 
-                 }}
-                 >
-                   <CardCover>      
-                      <img
-                         src="/restaurant/restaurant_3.png"
-                         loading="lazy"
-                         alt=""
-                      />
-                    </CardCover>
-                    <CardCover
-                        sx={{
-                    background:
-                          'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 300px)',
-                     }}
-                    />
-                    <CardContent sx={{ justifyContent: 'flex-end' }}>
-                     <Typography level="h2" fontSize="lg" textColor="#fff" mb={"1"}>
-                      TOP Restauranlar
-                    </Typography>
-                    <Typography
-                       startDecorator={<LocationOnRoundedIcon />}
-                       textColor="neutral.300"
-                      >
-                     Tashkent, Yunus Abad 4-1
-                     </Typography>
-                     </CardContent>
-                     <CardOverflow 
-                     sx={{
-                      display: "flex", 
-                      gap: 1.5, py: 1.5, 
-                      px: "var(--Card-padding)", 
-                      borderTop: "1px solid"
-                      }}
-                      >
-                      <IconButton
-                         aria-label="Like minimal photography" 
-                         size="md" 
-                         variant="solid" 
-                         color="neutral"
-                              sx={{
-                                 position: "absolute",
-                                 zIndex: 2,
-                                 borderRadius: "50%",
-                                 right: "1rem",
-                                 bottom: 45,
-                                 transform: "translateY(50%)",
-                                 color: "rgba(0,0,0,.4)"
-
-
-                              }}
-                            >
-                            <Favorite style={{ fill: "white"}}/>
-
-                            </IconButton>
-                           <Stack sx={{flexDirection: "row"}}>
-                        <Typography 
-            
-                          sx={{
-                            fontWeight: "md", 
-                            color: "neutral.300", 
-                            alignItems: "center",
-                            display: "flex" }}
-                           >
-                          100 {" "}
-                          <VisibilityIcon 
-                            sx={{ 
-                             fontSize: 20, 
-                             marginLeft: "5px"}}/>
-                         </Typography>
-
-                         <Box sx={{ width: 2, bgcolor: "divider", ml: "6px", mr: "6px"}}/>
-                        <Typography 
-                          sx={{ 
-                           fontWeight: "md", 
-                           color: "neutral.300", 
-                           alignItems: "center", 
-                           display: "flex" 
-                          }}
-                         >
-
-                        <div>50</div>
-                       <Favorite sx={{ fontSize: 20, marginLeft: "5px"}}/>
-                       </Typography>
-                     </Stack>
-                   </CardOverflow>
-
-                  </Card> */}
-              
               </Stack>
             </Stack>
           </Container>
       </div>)
-    };
+    }
+

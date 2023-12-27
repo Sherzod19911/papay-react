@@ -3,6 +3,7 @@ import { MeLiked } from "./product";
 
  
  export interface Restaurant {
+   [x: string]: any;
     _id: string;
     mb_nick: string;
   mb_phone: string;
