@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useRef} from "react";
 import { Favorite, Visibility } from "@mui/icons-material";
 import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
 import { CardOverflow, Card, CssVarsProvider,AspectRatio, IconButton, Typography,Link, } from "@mui/joy";
@@ -11,6 +11,11 @@ import {retrieveBestRestaurants } from "../../screens/Homepage/selector"
 import { Restaurant } from "../../../css/types/user";
 import RestaurantApiService from "../../apiServices/restaurantApiService";
 import { serverApi } from "../../../lib/config";
+import { Definer } from "../../../lib/Definer";
+import assert from "assert";
+import MemberApiService from "../../apiServices/memberApiServices";
+import { sweetErrorHandling, sweetTopSmallSuccessAlert } from "../../../lib/sweetAlert";
+import { useHistory } from "react-router-dom";
 
 //REDUX SELECTOR
 const bestRestaurantRetriever = createSelector(
@@ -27,7 +32,38 @@ const bestRestaurantRetriever = createSelector(
 export function BestRestaurants() {
   console.log("best");
   // INITIALIZITION
+  const history = useHistory();
   const { bestRestaurants } = useSelector(bestRestaurantRetriever);
+  const refs: any = useRef([]);
+    /** HANDLERS */
+
+    const chosenRestaurantHandler = (id: string) => 
+    history.push(`/restaurant/${id}`);
+    const goRestaurantsHandler = () => history.push('/restaurant');
+  const targetLikeBest =  async (e: any, id: string) => {
+    try {
+       assert.ok(localStorage.getItem("member_data"), Definer.auth_err1);
+       const memberService = new MemberApiService();
+        const like_result: any = await memberService.memberLikeTarget({
+          like_ref_id: id, 
+          group_type: 'member'
+        });
+        assert.ok(like_result, Definer.general_err1);
+        if(like_result.like_status >0) {
+          e.target.style.fill = 'red';
+          refs.current[like_result.like_ref_id].innerHTML++;
+
+
+        }else {
+          e.target.style.fill = 'white';
+          refs.current[like_result.like_ref_id].innerHTML--;
+        }
+        await sweetTopSmallSuccessAlert("success", 700, false);
+    }catch(err: any) {
+      console.log(`ERROR :::targetLikeBest ${err.message}`);
+      sweetErrorHandling(err).then();
+
+            }}
     return (
     <div className="best_restaurant_frame">
         <img src={"icons/line_group.svg"}
@@ -45,11 +81,12 @@ export function BestRestaurants() {
             return(
               <CssVarsProvider>
                 
-               <Card    
+               <Card  onClick = {() => chosenRestaurantHandler(ele._id)}  
                 variant="outlined"   
-                 sx={{ minHeight: 433,   
+                 sx={{ minHeight: 483,   
                  minWidth: 325, 
-                 mr: "35px" 
+                 mr: "35px",
+                 cursor: "pointer"
                           
                  }}    
               >      
@@ -72,18 +109,18 @@ export function BestRestaurants() {
                                  bottom: 0 ,
                                  transform: "translateY(50%)",
                                  color: "rgba(0,0,0,.4)"
-
-
-                              }}
+                                 }}
+                                 onClick = {(e) => {e.stopPropagation()}}
                             >
                             <Favorite 
+                            onClick={(e) => targetLikeBest(e, ele._id)}
                             style={{
                               fill: 
                               ele?.mb_liked && ele?.mb_liked[0]?.my_favorite
                               ? "red"
                               : "white",
-                            }}
-                            />
+                            }}      
+                            />      
 
                             </IconButton> 
 
@@ -94,7 +131,7 @@ export function BestRestaurants() {
                  </Typography>
 
                  <Typography  sx={{mt: 0.5, mb: 2 }}>
-                  <Link
+                  <Link      
                      href=""
                       startDecorator={<LocationOnRoundedIcon />}
                       textColor="neutral.700"
@@ -153,7 +190,11 @@ export function BestRestaurants() {
                    }}
                    >
 
-                  <div>{ele.mb_likes}</div>
+                  <div 
+                   ref={(element) => refs.current[ele._id] = element}
+                   >
+                    {ele.mb_likes}
+                    </div>
                  <Favorite sx={{ fontSize: 20, marginLeft: "5px"}} />
                  </Typography>
                         </Stack>

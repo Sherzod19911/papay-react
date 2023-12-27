@@ -17,7 +17,7 @@ import { createSelector } from "reselect";
 import {retrieveTopRestaurants } from "../../screens/Homepage/selector"
 import { Restaurant } from "../../../css/types/user";
 import { serverApi } from "../../../lib/config";
-import { sweetErrorHandling } from "../../../lib/sweetAlert";
+import { sweetErrorHandling, sweetTopSmallSuccessAlert } from "../../../lib/sweetAlert";
 
 import { Definer } from "../../../lib/Definer";
 import assert from "assert";
@@ -66,7 +66,9 @@ export function TopRestaurants() {
 
               }else {
                 e.target.style.fill = 'white';
+                refs.current[like_result.like_ref_id].innerHTML--;
               }
+              await sweetTopSmallSuccessAlert("success", 700, false);
 
           }catch(err: any) {
             console.log(`ERROR :::targetLikeTop ${err.message}`);
@@ -148,9 +150,8 @@ export function TopRestaurants() {
                                  bottom: 45,
                                  transform: "translateY(50%)",
                                  color: "rgba(0,0,0,.4)",
-
-
-                              }}
+                                 }}
+                                 onClick = {(e) => {e.stopPropagation()}}
                             >
                             <Favorite 
                             onClick={(e) => targetLikeTop(e, ele._id)}
