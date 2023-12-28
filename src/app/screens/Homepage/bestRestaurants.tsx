@@ -440,11 +440,13 @@ export function BestRestaurants() {
                     </Card>  */}
                    
                </Stack>  
-               <Stack flexDirection={"row"} justifyContent={"flex-end"} sx={{width: "100%", mt: "16px"}}>
+               <Stack flexDirection={"row"} justifyContent={"flex-end"} sx={{width: "100%", mt: "16px"}} 
+               onClick = {goRestaurantsHandler}
+               >
                 <Button style={{background:"#1976D2",color:"#FFFFFF"}}>BARCHASINI KO’RISH</Button>  
               </Stack>  
              </Stack>
-          </Container>    
+          </Container>           
       </div>
    );           
 }

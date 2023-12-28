@@ -190,7 +190,7 @@ export default function AuthenticationModal(props: any) {
           >
 
            <ModalImg src={"/auth/password.jpeg"} alt="camera" />
-            {/* <ModalImg src={"/auth/password.jpeg"} alt="camera" /> */}
+            
             <Stack
               sx={{
                 marginLeft: "65px",
