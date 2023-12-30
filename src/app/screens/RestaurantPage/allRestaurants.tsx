@@ -18,9 +18,12 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import React from "react";
 
-const order_list = Array.from(Array(8).keys())
+
+const order_list = Array.from(Array(8).keys());
+
 
 export function AllRestaurants() {
+
   return (
     <div className="all_restaurant">
       <Container>
@@ -168,4 +171,8 @@ export function AllRestaurants() {
       </Container>
     </div>
   );
+}
+
+function targetRestaurantsRetriever(state: unknown): { targetRestaurants: any; } {
+  throw new Error("Function not implemented.");
 }
