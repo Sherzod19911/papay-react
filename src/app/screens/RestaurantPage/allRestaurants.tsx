@@ -1,4 +1,4 @@
-import React, { useEffect} from "react";
+import React, { useEffect, useState} from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import { Box, Container, Stack, Button } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
@@ -19,213 +19,406 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
 
-<<<<<<< HEAD
-const order_list = Array.from(Array(8).keys());
-
-
-export function AllRestaurants() {
-
-=======
-
 //REDUX
-import { useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { retrieveTargetRestaurants } from "../RestaurantPage/selector";
 import { createSelector } from "reselect";
-import {retrieveTargetRestaurant} from "../../screens/RestaurantPage/selector"
-import {Dispatch} from "@reduxjs/toolkit";
-import { setTargetRestaurants }  from "../../screens/RestaurantPage/slice"
 import { Restaurant } from "../../../css/types/user";
+
+import { Dispatch } from "@reduxjs/toolkit";
+import { setTargetRestaurants } from "../../screens/RestaurantPage/slice";
 import RestaurantApiService from "../../apiServices/restaurantApiService";
+import { SearchObj } from "../../../css/types/others";
 
-    
+const order_list = Array.from(Array(8).keys());  
 
-   
-
-const order_list = Array.from(Array(8).keys());   
-
-//REDUX SLICE
+// REDUX SLICE
 const actionDispatch = (dispach: Dispatch) => ({
-  setTargetRestaurants: (data: Restaurant[]) => dispach(setTargetRestaurants(data)),
-
+  setTargetRestaurants: (data: Restaurant[]) =>
+    dispach(setTargetRestaurants(data)),
 });
 
-//REDUX SELECTOR
-const setTargetRestaurantsRetriever = createSelector(
-  retrieveTargetRestaurant,
+// REDUX SELECTOR
+const targetRestaurantsRetriever = createSelector(
+  retrieveTargetRestaurants,
   (targetRestaurants) => ({
     targetRestaurants,
   })
 );
 
-
 export function AllRestaurants() {
-   //INITIALIZITION
-  const {setTargetRestaurants} = actionDispatch(useDispatch());
-  const {targetRestaurants} = useSelector(setTargetRestaurantsRetriever);
+    //INITIALIZITION
+   const {setTargetRestaurants} = actionDispatch(useDispatch());
+   const {targetRestaurants} = useSelector(targetRestaurantsRetriever);
+   const [targetSearchObject, setTargetSearchObject] = useState<SearchObj>({
+    page: 1,
+    limit: 2,
+    order: "mb_point",
+  });
 
-  useEffect(() => {
-    const restaurantServer = new RestaurantApiService();
-    // restaurantServer
-    //   .getRestaurants(targetSearchObject)
-    //   .then((data) => setTargetRestaurants(data))
-    //   .catch((err) => console.log(err));
-  }, []); // componentDidUpdate
-  
->>>>>>> 7c49bdbc0020b3c9a9144e9e38d8f29405fbb205
-  return (
-    <div className="all_restaurant">
-      <Container>
-        <Stack flexDirection={"column"} alignItems={"center"}>
-          <Box className={"fil_search_box"}>
-            <Box className={"fil_box"}>
-              <a>Zo'r</a>
-              <a>Mashhurlar</a>
-              <a>Trenddagi</a>
-              <a>Yangi</a>
-            </Box>
-            <Box className={"search_big_box"}>
-              <form className="search_form" action="">
-                <input    
-                  type="search"
-                  className="searchInput"
-                  name="resSearch"
-                  placeholder="Qiduruv"
-                />
-                <Button
-                  className="button_search"
-                  variant="contained"
-                  endIcon={<SearchIcon />}
-                >
-                  Izlash
-                </Button>
-              </form>
-            </Box>
-          </Box>
-          <Stack className="all_res_box">
-            <CssVarsProvider>
-               {order_list.map(ele => {
-                return (
-                    <Card
-                    variant="outlined"
-                    sx={{ minHeight: 410, minWidth: 290, mx: "17px", my: "20px" }}
-                  >
-                    <CardOverflow>
-                      <AspectRatio ratio={"1"}>
-                        <img src="/restaurant/burak_photo.jpg" alt="" />
-                      </AspectRatio>
-                      <IconButton
-                        aria-label="Like minimal photography"
-                        size="md"
-                        variant="solid"
-                        color="neutral"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                        }}       
-                        sx={{
-                          position: "absolute",
-                          zIndex: 2,
-                          borderRadius: "50%",
-                          right: "1rem",
-                          bottom: 0,
-                          transform: "translateY(50%)",
-                          color: "rgba(0,0,0,.4)",
-                        }}
-                      >
-                        <Favorite style={{ color: "white" }} />
-                      </IconButton>
-                    </CardOverflow>
-                    
-                    <Typography level="h2" sx={{ fontSize: "md", mt: 2 }}>
-                      Texas De Brazil Restaurant
-                    </Typography>
-                    <Typography level="body-sm" sx={{ mt: 0.5, mb: 1 }}>
-                      <Link
-                        startDecorator={<LocationOnRoundedIcon />}
-                        textColor={"neutral.700"}
-                      >
-                        Tashkent, Yunus Abad 4-1
-                      </Link>
-                    </Typography>
-                    <Typography level="body-sm" sx={{ mt: 0.5, mb: 1 }}>
-                      <Link startDecorator={<CallIcon />} textColor={"neutral.700"}>
-                        99890 3216547
-                      </Link>
-                    </Typography>
-                    <CardOverflow
-                      variant="soft"
-                      sx={{
-                        display: "flex",
-                        flexDirection: "row",
-                        gap: 1.5,
-                        py: 1.5,
-                        px: "var(--Card-padding)",
-                        borderTop: "1px solid",
-                        borderColor: "neutral.outlinedBorder",
-                        bgcolor: "background.level1",
-                      }}
+   useEffect(() => {
+        const restaurantService = new RestaurantApiService();
+        restaurantService
+        .getRestaurants(targetSearchObject)
+        .then((data) => setTargetRestaurants(data))
+         .catch((err) => console.log(err));
+     }, []); // componentDidUpdate
+return (
+        <div className="all_restaurant">
+          <Container>
+            <Stack flexDirection={"column"} alignItems={"center"}>
+              <Box className={"fil_search_box"}>
+                <Box className={"fil_box"}>
+                  <a>Zo'r</a>
+                  <a>Mashhurlar</a>
+                  <a>Trenddagi</a>
+                  <a>Yangi</a>
+                </Box>
+                <Box className={"search_big_box"}>
+                  <form className="search_form" action="">
+                    <input    
+                      type="search"
+                      className="searchInput"
+                      name="resSearch"
+                      placeholder="Qiduruv"
+                    />
+                    <Button
+                      className="button_search"
+                      variant="contained"
+                      endIcon={<SearchIcon />}
                     >
-                      <Typography
-                        level="body-md"
-                        sx={{
-                          fontWeight: "md",
-                          color: "text.secondary",
-                          alignItems: "center",
-                          display: "flex",
-                        }}
+                      Izlash
+                    </Button>
+                  </form>
+                </Box>
+              </Box>
+              <Stack className="all_res_box">
+                <CssVarsProvider>
+                   {order_list.map(ele => {
+                    return (
+                        <Card
+                        variant="outlined"
+                        sx={{ minHeight: 410, minWidth: 290, mx: "17px", my: "20px" }}
                       >
-                        1000{" "}
-                        <VisibilityIcon sx={{ fontSize: 20, marginLeft: "5px" }} />
-                      </Typography>
-                      <Box sx={{ width: 2, bgcolor: "divider" }} />
-                      <Typography
-                        level="body-md"
-                        sx={{
-                          fontWeight: "md",
-                          color: "text.secondary",
-                          alignItems: "center",
-                          display: "flex",
-                        }}
-                      >
-                        <div>500</div>
-                        <FavoriteIcon sx={{ fontSize: 20, marginLeft: "5px" }} />
-                      </Typography>
-                    </CardOverflow>
-                  </Card>  
-                )
-               })} 
-              
-            </CssVarsProvider>
-          </Stack>
-
-          <Stack className="bottom_box">
-            <img src="/icons/right_angel.svg" className="line_img" alt="" />
-            <Pagination
-              count={3}
-              page={1}
-              renderItem={(item) => (
-                <PaginationItem
-                  components={{
-                    previous: ArrowBackIcon,
-                    next: ArrowForwardIcon,
-                  }}
-                  {...item}
-                  color={"secondary"}
+                        <CardOverflow>
+                          <AspectRatio ratio={"1"}>
+                            <img src="/restaurant/burak_photo.jpg" alt="" />
+                          </AspectRatio>
+                          <IconButton
+                            aria-label="Like minimal photography"
+                            size="md"
+                            variant="solid"
+                            color="neutral"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                            }}       
+                            sx={{
+                              position: "absolute",
+                              zIndex: 2,
+                              borderRadius: "50%",
+                              right: "1rem",
+                              bottom: 0,
+                              transform: "translateY(50%)",
+                              color: "rgba(0,0,0,.4)",
+                            }}
+                          >
+                            <Favorite style={{ color: "white" }} />
+                          </IconButton>
+                        </CardOverflow>
+                        
+                        <Typography level="h2" sx={{ fontSize: "md", mt: 2 }}>
+                          Texas De Brazil Restaurant
+                        </Typography>
+                        <Typography level="body-sm" sx={{ mt: 0.5, mb: 1 }}>
+                          <Link
+                            startDecorator={<LocationOnRoundedIcon />}
+                            textColor={"neutral.700"}
+                          >
+                            Tashkent, Yunus Abad 4-1
+                          </Link>
+                        </Typography>
+                        <Typography level="body-sm" sx={{ mt: 0.5, mb: 1 }}>
+                          <Link startDecorator={<CallIcon />} textColor={"neutral.700"}>
+                            99890 3216547
+                          </Link>
+                        </Typography>
+                        <CardOverflow
+                          variant="soft"
+                          sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            gap: 1.5,
+                            py: 1.5,
+                            px: "var(--Card-padding)",
+                            borderTop: "1px solid",
+                            borderColor: "neutral.outlinedBorder",
+                            bgcolor: "background.level1",
+                          }}
+                        >
+                          <Typography
+                            level="body-md"
+                            sx={{
+                              fontWeight: "md",
+                              color: "text.secondary",
+                              alignItems: "center",
+                              display: "flex",
+                            }}
+                          >
+                            1000{" "}
+                            <VisibilityIcon sx={{ fontSize: 20, marginLeft: "5px" }} />
+                          </Typography>
+                          <Box sx={{ width: 2, bgcolor: "divider" }} />
+                          <Typography
+                            level="body-md"
+                            sx={{
+                              fontWeight: "md",
+                              color: "text.secondary",
+                              alignItems: "center",
+                              display: "flex",
+                            }}
+                          >
+                            <div>500</div>
+                            <FavoriteIcon sx={{ fontSize: 20, marginLeft: "5px" }} />
+                          </Typography>
+                        </CardOverflow>
+                      </Card>  
+                    )
+                   })} 
+                  
+                </CssVarsProvider>
+              </Stack>
+    
+              <Stack className="bottom_box">
+                <img src="/icons/right_angel.svg" className="line_img" alt="" />
+                <Pagination
+                  count={3}
+                  page={1}
+                  renderItem={(item) => (
+                    <PaginationItem
+                      components={{
+                        previous: ArrowBackIcon,
+                        next: ArrowForwardIcon,
+                      }}
+                      {...item}
+                      color={"secondary"}
+                    />
+                  )}
                 />
-              )}
-            />
-            <img src="/icons/right_angel.svg" className="line_img_two" alt="" />
-          </Stack>
-        </Stack>
-      </Container>
-    </div>
-  );
-}
+                <img src="/icons/right_angel.svg" className="line_img_two" alt="" />
+              </Stack>
+            </Stack>
+          </Container>
+        </div>
+      );
+    }
 
-<<<<<<< HEAD
-function targetRestaurantsRetriever(state: unknown): { targetRestaurants: any; } {
-  throw new Error("Function not implemented.");
-}
-=======
-// function useEffect(arg0: () => void, arg1: never[]) {
+// <<<<<<< HEAD
+// const order_list = Array.from(Array(8).keys());
+
+
+// export function AllRestaurants() {
+
+// =======
+
+// //REDUX
+// import { useDispatch, useSelector} from "react-redux";
+// import { createSelector } from "reselect";
+// import {retrieveTargetRestaurant} from "../../screens/RestaurantPage/selector"
+// import {Dispatch} from "@reduxjs/toolkit";
+// import { setTargetRestaurants }  from "../../screens/RestaurantPage/slice"
+// import { Restaurant } from "../../../css/types/user";
+// import RestaurantApiService from "../../apiServices/restaurantApiService";
+
+    
+
+   
+
+// const order_list = Array.from(Array(8).keys());   
+
+// //REDUX SLICE
+// const actionDispatch = (dispach: Dispatch) => ({
+//   setTargetRestaurants: (data: Restaurant[]) => dispach(setTargetRestaurants(data)),
+
+// });
+
+// //REDUX SELECTOR
+// const setTargetRestaurantsRetriever = createSelector(
+//   retrieveTargetRestaurant,
+//   (targetRestaurants) => ({
+//     targetRestaurants,
+//   })
+// );
+
+
+// export function AllRestaurants() {
+//    //INITIALIZITION
+//   const {setTargetRestaurants} = actionDispatch(useDispatch());
+//   const {targetRestaurants} = useSelector(setTargetRestaurantsRetriever);
+
+//   useEffect(() => {
+//     const restaurantServer = new RestaurantApiService();
+//     // restaurantServer
+//     //   .getRestaurants(targetSearchObject)
+//     //   .then((data) => setTargetRestaurants(data))
+//     //   .catch((err) => console.log(err));
+//   }, []); // componentDidUpdate
+  
+// >>>>>>> 7c49bdbc0020b3c9a9144e9e38d8f29405fbb205
+//   return (
+//     <div className="all_restaurant">
+//       <Container>
+//         <Stack flexDirection={"column"} alignItems={"center"}>
+//           <Box className={"fil_search_box"}>
+//             <Box className={"fil_box"}>
+//               <a>Zo'r</a>
+//               <a>Mashhurlar</a>
+//               <a>Trenddagi</a>
+//               <a>Yangi</a>
+//             </Box>
+//             <Box className={"search_big_box"}>
+//               <form className="search_form" action="">
+//                 <input    
+//                   type="search"
+//                   className="searchInput"
+//                   name="resSearch"
+//                   placeholder="Qiduruv"
+//                 />
+//                 <Button
+//                   className="button_search"
+//                   variant="contained"
+//                   endIcon={<SearchIcon />}
+//                 >
+//                   Izlash
+//                 </Button>
+//               </form>
+//             </Box>
+//           </Box>
+//           <Stack className="all_res_box">
+//             <CssVarsProvider>
+//                {order_list.map(ele => {
+//                 return (
+//                     <Card
+//                     variant="outlined"
+//                     sx={{ minHeight: 410, minWidth: 290, mx: "17px", my: "20px" }}
+//                   >
+//                     <CardOverflow>
+//                       <AspectRatio ratio={"1"}>
+//                         <img src="/restaurant/burak_photo.jpg" alt="" />
+//                       </AspectRatio>
+//                       <IconButton
+//                         aria-label="Like minimal photography"
+//                         size="md"
+//                         variant="solid"
+//                         color="neutral"
+//                         onClick={(e) => {
+//                           e.stopPropagation();
+//                         }}       
+//                         sx={{
+//                           position: "absolute",
+//                           zIndex: 2,
+//                           borderRadius: "50%",
+//                           right: "1rem",
+//                           bottom: 0,
+//                           transform: "translateY(50%)",
+//                           color: "rgba(0,0,0,.4)",
+//                         }}
+//                       >
+//                         <Favorite style={{ color: "white" }} />
+//                       </IconButton>
+//                     </CardOverflow>
+                    
+//                     <Typography level="h2" sx={{ fontSize: "md", mt: 2 }}>
+//                       Texas De Brazil Restaurant
+//                     </Typography>
+//                     <Typography level="body-sm" sx={{ mt: 0.5, mb: 1 }}>
+//                       <Link
+//                         startDecorator={<LocationOnRoundedIcon />}
+//                         textColor={"neutral.700"}
+//                       >
+//                         Tashkent, Yunus Abad 4-1
+//                       </Link>
+//                     </Typography>
+//                     <Typography level="body-sm" sx={{ mt: 0.5, mb: 1 }}>
+//                       <Link startDecorator={<CallIcon />} textColor={"neutral.700"}>
+//                         99890 3216547
+//                       </Link>
+//                     </Typography>
+//                     <CardOverflow
+//                       variant="soft"
+//                       sx={{
+//                         display: "flex",
+//                         flexDirection: "row",
+//                         gap: 1.5,
+//                         py: 1.5,
+//                         px: "var(--Card-padding)",
+//                         borderTop: "1px solid",
+//                         borderColor: "neutral.outlinedBorder",
+//                         bgcolor: "background.level1",
+//                       }}
+//                     >
+//                       <Typography
+//                         level="body-md"
+//                         sx={{
+//                           fontWeight: "md",
+//                           color: "text.secondary",
+//                           alignItems: "center",
+//                           display: "flex",
+//                         }}
+//                       >
+//                         1000{" "}
+//                         <VisibilityIcon sx={{ fontSize: 20, marginLeft: "5px" }} />
+//                       </Typography>
+//                       <Box sx={{ width: 2, bgcolor: "divider" }} />
+//                       <Typography
+//                         level="body-md"
+//                         sx={{
+//                           fontWeight: "md",
+//                           color: "text.secondary",
+//                           alignItems: "center",
+//                           display: "flex",
+//                         }}
+//                       >
+//                         <div>500</div>
+//                         <FavoriteIcon sx={{ fontSize: 20, marginLeft: "5px" }} />
+//                       </Typography>
+//                     </CardOverflow>
+//                   </Card>  
+//                 )
+//                })} 
+              
+//             </CssVarsProvider>
+//           </Stack>
+
+//           <Stack className="bottom_box">
+//             <img src="/icons/right_angel.svg" className="line_img" alt="" />
+//             <Pagination
+//               count={3}
+//               page={1}
+//               renderItem={(item) => (
+//                 <PaginationItem
+//                   components={{
+//                     previous: ArrowBackIcon,
+//                     next: ArrowForwardIcon,
+//                   }}
+//                   {...item}
+//                   color={"secondary"}
+//                 />
+//               )}
+//             />
+//             <img src="/icons/right_angel.svg" className="line_img_two" alt="" />
+//           </Stack>
+//         </Stack>
+//       </Container>
+//     </div>
+//   );
+// }
+
+// <<<<<<< HEAD
+// function targetRestaurantsRetriever(state: unknown): { targetRestaurants: any; } {
 //   throw new Error("Function not implemented.");
 // }
->>>>>>> 7c49bdbc0020b3c9a9144e9e38d8f29405fbb205
+// =======
+// // function useEffect(arg0: () => void, arg1: never[]) {
+// //   throw new Error("Function not implemented.");
+// // }
+// >>>>>>> 7c49bdbc0020b3c9a9144e9e38d8f29405fbb205
