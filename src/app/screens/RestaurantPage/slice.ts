@@ -6,15 +6,26 @@ const initialState: RestaurantPageState = {
     randomRestaurants: [],
     chosenRestaurant: null,
     targetProducts: [],
+<<<<<<< HEAD
     chosenProduct: null,
 }  
      
+=======
+    chosenProduct: null
+}  
+
+>>>>>>> 7c49bdbc0020b3c9a9144e9e38d8f29405fbb205
 const restaurantPageSlice = createSlice({
     name: "restaurantPage",
     initialState,
     reducers: {
+<<<<<<< HEAD
     setTargetRestaurants: (state, action) => {
     state.targetRestaurants = action.payload;
+=======
+        setTargetRestaurants: (state, action) => {
+           state.targetRestaurants = action.payload;
+>>>>>>> 7c49bdbc0020b3c9a9144e9e38d8f29405fbb205
     },
     setRandomRestaurants: (state, action) => {
         state.randomRestaurants = action.payload;

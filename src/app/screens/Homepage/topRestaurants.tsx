@@ -16,6 +16,8 @@ import { createSelector } from "reselect";
 
 import {retrieveTopRestaurants } from "../../screens/Homepage/selector"
 import { Restaurant } from "../../../css/types/user";
+
+/** OTHERS */
 import { serverApi } from "../../../lib/config";
 import { sweetErrorHandling, sweetTopSmallSuccessAlert } from "../../../lib/sweetAlert";
 
@@ -73,8 +75,8 @@ export function TopRestaurants() {
           }catch(err: any) {
             console.log(`ERROR :::targetLikeTop ${err.message}`);
             sweetErrorHandling(err).then();
-
-                  }}
+          }}
+          
          return (
             <div className="top_restaurant_frame">
            <Container>
