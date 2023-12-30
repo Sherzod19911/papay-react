@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect} from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import { Box, Container, Stack, Button } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
@@ -19,6 +19,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
 
+
 //REDUX
 import { useDispatch, useSelector} from "react-redux";
 import { createSelector } from "reselect";
@@ -26,9 +27,11 @@ import {retrieveTargetRestaurant} from "../../screens/RestaurantPage/selector"
 import {Dispatch} from "@reduxjs/toolkit";
 import { setTargetRestaurants }  from "../../screens/RestaurantPage/slice"
 import { Restaurant } from "../../../css/types/user";
+import RestaurantApiService from "../../apiServices/restaurantApiService";
+
     
 
-
+   
 
 const order_list = Array.from(Array(8).keys());   
 
@@ -52,9 +55,14 @@ export function AllRestaurants() {
   const {setTargetRestaurants} = actionDispatch(useDispatch());
   const {targetRestaurants} = useSelector(setTargetRestaurantsRetriever);
 
-  useeffect(() => {
-  // TODO Retrieve TargetRestaurant
-  }, []);
+  useEffect(() => {
+    const restaurantServer = new RestaurantApiService();
+    // restaurantServer
+    //   .getRestaurants(targetSearchObject)
+    //   .then((data) => setTargetRestaurants(data))
+    //   .catch((err) => console.log(err));
+  }, []); // componentDidUpdate
+  
   return (
     <div className="all_restaurant">
       <Container>
@@ -68,7 +76,7 @@ export function AllRestaurants() {
             </Box>
             <Box className={"search_big_box"}>
               <form className="search_form" action="">
-                <input
+                <input    
                   type="search"
                   className="searchInput"
                   name="resSearch"
@@ -204,6 +212,6 @@ export function AllRestaurants() {
   );
 }
 
-function useeffect(arg0: () => void, arg1: never[]) {
-  throw new Error("Function not implemented.");
-}
+// function useEffect(arg0: () => void, arg1: never[]) {
+//   throw new Error("Function not implemented.");
+// }
