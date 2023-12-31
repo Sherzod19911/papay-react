@@ -24,5 +24,5 @@ export interface Product {
      restaurant_mb_id: string;
      createdAt: Date,
      updatedAt: Date,
-     mb_liked: MeLiked[]; //Meliked
+     me_liked: MeLiked[]; //Meliked
 }

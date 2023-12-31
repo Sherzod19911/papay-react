@@ -34,6 +34,7 @@ import { Definer } from "../../../lib/Definer";
 import assert from "assert";
 import MemberApiService from "../../apiServices/memberApiServices";
 import { sweetErrorHandling, sweetTopSmallSuccessAlert } from "../../../lib/sweetAlert";
+import { useHistory } from "react-router-dom";
 
 
 const order_list = Array.from(Array(8).keys());  
@@ -54,6 +55,7 @@ const targetRestaurantsRetriever = createSelector(
 
 export function AllRestaurants() {
     //INITIALIZITION
+    const history = useHistory();
    const {setTargetRestaurants} = actionDispatch(useDispatch());
    const {targetRestaurants} = useSelector(targetRestaurantsRetriever);
    const [targetSearchObject, setTargetSearchObject] = useState<SearchObj>({
@@ -71,6 +73,9 @@ export function AllRestaurants() {
      }, [targetSearchObject]); // componentDidUpdate
 
      /**HANDLERS */
+     const chosenRestaurantHandler = (id: string) => {
+      history.push(`/restaurant/${id}`);
+    };
      const searchHandler = (category: string) => {
       targetSearchObject.page = 1;
       targetSearchObject.order = category;
@@ -148,8 +153,15 @@ export function AllRestaurants() {
                     const image_path = `${serverApi}/${ele.mb_image}`; 
                     return (
                         <Card
+                        onClick = {() => chosenRestaurantHandler(ele._id)}
                         variant="outlined"
-                        sx={{ minHeight: 410, minWidth: 290, mx: "17px", my: "20px" }}
+                        sx={{
+                           minHeight: 410, 
+                           minWidth: 290, 
+                           mx: "17px", 
+                           my: "20px",
+                           cursor: "pointer",
+                          }}
                       >
                         <CardOverflow>
                           <AspectRatio ratio={"1"}>
