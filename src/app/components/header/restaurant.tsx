@@ -12,6 +12,7 @@ import {
    from '@mui/material';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import Basket from './basket';
 
  export function NavbarRestaurant(props: any)  {
     return(<div className="format_restaurant home_navbar">
@@ -70,19 +71,7 @@ import { NavLink } from 'react-router-dom';
                             </NavLink>
                     </Box>
 
-                    <Box className="hover-line">
-                        <IconButton
-                            aria-label="cart"
-                            id="basic-button"
-                            aria-controls={undefined}
-                            aria-haspopup="true"
-                            aria-expanded={undefined} >
-                        
-                            <Badge badgeContent={3} color="secondary">
-                                <img src={"/icons/shopping_cart.svg"}/>
-                            </Badge>
-                        </IconButton>
-                    </Box>
+                    <Basket/>
                      {!props.verifiedMemberData ? (
                          <Box>
                          <Button 
