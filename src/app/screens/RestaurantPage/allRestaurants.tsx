@@ -53,7 +53,7 @@ const targetRestaurantsRetriever = createSelector(
   })
 );
 
-export function AllRestaurants() {
+export function AllRestaurants(props: any) {
     //INITIALIZITION
     const history = useHistory();
    const {setTargetRestaurants} = actionDispatch(useDispatch());

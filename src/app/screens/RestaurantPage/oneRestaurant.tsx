@@ -78,7 +78,7 @@ const actionDispatch = (dispach: Dispatch) => ({
     
    
 
- export function OneRestaurant(){ 
+ export function OneRestaurant(props: any){ 
       /**INITIALIZATIONS */
       const history = useHistory();
       let { restaurant_id } = useParams<{ restaurant_id: string }>();
@@ -323,7 +323,11 @@ const actionDispatch = (dispach: Dispatch) => ({
                                             />    
                                         </Badge>
                                     </Button>
-                                    <Button className={"view_btn"}>
+                                    <Button className={"view_btn"}
+                                    onClick={(e) => {props.onAdd(product);
+                                     e.stopPropagation()
+                                     }}
+                                     >
                                         <img
                                             src={"/icons/shopping-cart.svg"}     
                                             style={{ display: "flex" }}
