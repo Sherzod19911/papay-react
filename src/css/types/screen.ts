@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { BoArticle } from "./boArticle";
 import { Product } from "./product";
 import { Restaurant } from "./user";
+import { Order } from "./order";
 
        /*react app state*/
 export interface AppRootState {
@@ -31,7 +32,7 @@ export interface HomePageState {
 
 // OrdersPageState Interface
 export interface OrdersPageState {
-    // pausedOrders: Order[];
-    // processOrders: Order[];
-    // finishedOrders: Order[];
+    pausedOrders: Order[];
+    processOrders: Order[];
+    finishedOrders: Order[];
   }
