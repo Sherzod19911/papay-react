@@ -37,23 +37,23 @@ import { Logout } from '@mui/icons-material';
                             Oshxona
                             </NavLink>
                     </Box>
+                    {props.verifiedMemberData ? (
+                     <Box className="hover-line" onClick={props.setPath}>
+                     <NavLink to="/member-page" 
+                     activeClassName="underLine">
+                         Buyurtma
+                         </NavLink>
+                 </Box> ) : null }
 
                     <Box className="hover-line"onClick={props.setPath}>
                         <NavLink to="/orders" 
                         activeClassName="underLine">
-                            Buyurtma
-                            </NavLink>
-                    </Box>
-                    <Box className="hover-line" onClick={props.setPath}>
-                        <NavLink to="/community" 
-                        activeClassName="underLine">
                             Jamiyat
                             </NavLink>
                     </Box>
-
-                    {props.verifiedMemberData
-                     
-                    ? (
+                  
+           
+                    {props.verifiedMemberData ? (
                      <Box className="hover-line" onClick={props.setPath}>
                      <NavLink to="/member-page" 
                      activeClassName="underLine">

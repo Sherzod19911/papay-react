@@ -41,12 +41,13 @@ import { NavLink } from 'react-router-dom';
                             </NavLink>
                     </Box>
 
-                    <Box className="hover-line"onClick={props.setPath}>
-                        <NavLink to="/orders" 
-                        activeClassName="underLine">
-                            Buyurtma
-                            </NavLink>
-                    </Box>
+                    {props.verifiedMemberData ? (
+                     <Box className="hover-line" onClick={props.setPath}>
+                     <NavLink to="/member-page" 
+                     activeClassName="underLine">
+                         Buyurtma
+                         </NavLink>
+                 </Box> ) : null }
                     <Box className="hover-line" onClick={props.setPath}>
                         <NavLink to="/community" 
                         activeClassName="underLine">
