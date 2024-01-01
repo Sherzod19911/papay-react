@@ -39,7 +39,10 @@ import RestaurantApiService from "../../apiServices/restaurantApiService";
 import assert from "assert";
 import { Definer } from '../../../lib/Definer';
 import MemberApiService from '../../apiServices/memberApiServices';
-import { sweetErrorHandling, sweetTopSmallSuccessAlert} from "../../../lib/sweetAlert";
+import {
+     sweetErrorHandling, 
+     sweetTopSmallSuccessAlert
+    } from "../../../lib/sweetAlert";
 //others
 
 

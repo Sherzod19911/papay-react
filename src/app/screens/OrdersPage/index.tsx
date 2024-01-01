@@ -8,65 +8,32 @@ import { Container, Stack, Box } from "@mui/material";
 
 
 import TabList from "@mui/lab/TabList";
-
-        
-
-
-
-
-
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PausedOrders from "../../components/orders/pausedOrders";
 import ProcessOrders from "../../components/orders/processOrders";
 import FinishedOrders from "../../components/orders/finishedOrders";
 
 
-
-
-// // export function OrdersPage(props: any) {
-
-// //     const [value,setValue] = React.useState("1");
-// //     const handleChange = (event: any, newValue: string) => {
-// //         alert(newValue);
-// //         setValue(newValue);
-// //     };
-// //     return  <div className="order_page">
-// //         <Container maxWidth="lg"
-// //         style={{ display: "flex", flexDirection: "row"}}
-// //         sx={{mt: "50px", mb: "50px"}}
-// //         > 
-// //             <Stack className={"order_left"}>
-// //                 <TabContext value={value}>
-// //                     <Box className={"order_nav_frame"}>
-// //                         <Box sx={{borderBottom: 1, borderColor: "divider"}}>
-// //                             <TabList
-// //                             onChange={handleChange}
-// //                             aria-label="basic tabs example"
-// //                             style={{ display: "flex", justifyContent: "space-between"}}
-                            
-// //                           >
-// //                                 <Tab label="Buyurtmalarim" value={"1"} />
-// //                                 <Tab label="Jarayon" value={"2"} />
-// //                                 <Tab label="Yakunlangan" value={"3"} />
-// //                             </TabList>
-// //                         </Box>
-// //                     </Box>    
-                    
-//                      <Stack className={"order_main_content"}>
-//                         <PausedOrders />
-//                          <ProcessOrders />
-//                          <FinishOrders />
-//                      </Stack>
-//                  </TabContext>
-//               </Stack>
-//             </Container>
-//      </div>
-
-// }
+//REDUX
+import { useDispatch } from "react-redux";
+import { Dispatch } from "@reduxjs/toolkit";
+import { Order } from "../../../css/types/order";
+import { setFinishedOrders, setPausedOrders, setProcessOrders } from "./slice";
+// Redux Slice
+const actionDispatch = (dispatch: Dispatch) => ({
+  setPausedOrders: (data: Order[]) => dispatch(setPausedOrders(data)),
+  setProcessOrders: (data: Order[]) => dispatch(setProcessOrders(data)),
+  setFinishedOrders: (data: Order[]) => dispatch(setFinishedOrders(data)),
+});
 
 export function OrdersPage(props: any) {
     /** INITIALIZATIONS **/
+    ///const [value, setValue] = useState("1");
+    const { setPausedOrders, setProcessOrders, setFinishedOrders } =
+    actionDispatch(useDispatch());
+
     const [value, setValue] = useState("1");
+ 
 
 
   /** HANDLERS **/

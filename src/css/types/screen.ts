@@ -9,6 +9,7 @@ import { Order } from "./order";
 export interface AppRootState {
     homePage: HomePageState;
     restaurantPage: RestaurantPageState;
+    ordersPage: OrdersPageState;
 
 }
    /**HOMEPAGE */
