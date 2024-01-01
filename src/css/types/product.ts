@@ -18,7 +18,7 @@ export interface Product {
      product_size: string,
      product_volume: number,
      product_description: string,
-     product_images: string,
+     product_images: string[],
      product_likes: number,
      product_views: number,
      restaurant_mb_id: string;

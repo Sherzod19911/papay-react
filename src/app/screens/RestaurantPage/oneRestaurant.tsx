@@ -89,7 +89,7 @@ const actionDispatch = (dispach: Dispatch) => ({
       const [targetProductSearchObj, setTargetProductSearchObj] =
         useState<ProductSearchObj>({
           page: 1,
-          limit: 4,
+          limit: 2,
           order: "createdAt",
           restaurant_mb_id: restaurant_id,
           product_collection: "dish",
@@ -102,6 +102,11 @@ const actionDispatch = (dispach: Dispatch) => ({
               .getRestaurants({ page: 1, limit: 10, order: "random" })
               .then((data) => setRandomRestaurants(data))
               .catch((err) => console.log(err));
+
+              restaurantService
+              .getChosenRestaurant(chosenRestaurantId)
+              .then((data) => setChosenRestaurant(data))
+              .catch((err) => console.log(err));
         
             const productService = new ProductApiService();
             productService
@@ -109,7 +114,7 @@ const actionDispatch = (dispach: Dispatch) => ({
               .then((data) => setTargetProducts(data))
               .catch((err) => console.log(err));
 
-          }, [targetProductSearchObj,productRebuild]);  
+          }, [chosenRestaurantId, targetProductSearchObj,productRebuild]);  
           /**Handlers */
           const chosenRestaurantHandler = (id: string) => {
             setChosenRestaurantId(id);
@@ -405,12 +410,13 @@ const actionDispatch = (dispach: Dispatch) => ({
             >
                 <Box className={"about_left"}
                 sx={{
-                backgroundImage: `url("/restaurant/Subtract.jpg")`
+                backgroundImage: `url(${serverApi}/${chosenRestaurant?.mb_image})`, 
+                
                 }}
             >
                 <div className={"about_left_desc"}>
-                    <span>Rayhon</span>
-                    <p>It is very popular restaurant</p>
+                    <span>{chosenRestaurant?.mb_nick}</span>
+                    <p>{chosenRestaurant?.mb_description}</p>
                 </div>
                 </Box>
                 <Box className={"about_right"}>
@@ -452,3 +458,9 @@ const actionDispatch = (dispach: Dispatch) => ({
         </Container>
     </div>
 }
+function then(arg0: (data: any) => { payload: any; type: "restaurantPage/setChosenRestaurant"; }) {
+    throw new Error('Function not implemented.');
+}
+
+
+

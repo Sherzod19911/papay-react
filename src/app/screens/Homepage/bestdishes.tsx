@@ -72,7 +72,8 @@ export function BestDishes() {
                   >
                     <div className={"dish_sale"}>{size_volume}</div>
                     <div className={"view_btn"}>
-                     // <div onClick={() => chosenDishHandler(product._id)}>
+                      <div
+                       onClick={() => chosenDishHandler(product._id)}>
                         Batafsil ko'rish
                       </div>
                       <img
@@ -81,7 +82,7 @@ export function BestDishes() {
 
                         style={{ marginLeft: "9px" }}
                       />
-                    </div>
+                    </div>      
                   </Stack>
                   <Stack className={"dish_desc"}>
                     <span className={"dish_title_text"}>

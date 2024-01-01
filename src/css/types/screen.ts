@@ -28,3 +28,10 @@ export interface HomePageState {
     targetProducts: Product[];
     chosenProduct: Product | null;
 }
+
+// OrdersPageState Interface
+export interface OrdersPageState {
+    // pausedOrders: Order[];
+    // processOrders: Order[];
+    // finishedOrders: Order[];
+  }
