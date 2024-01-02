@@ -7,9 +7,16 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import React from "react";
 import { CartItem } from "../../../css/types/others";
 import { serverApi } from "../../../lib/config";
+import assert from "assert";
+import { sweetErrorHandling } from "../../../lib/sweetAlert";
+import { Definer } from "../../../lib/Definer";
+import { useHistory } from "react-router-dom";
+import OrderApiService from  "../../apiServices/orderApiServices";
+
 
 export default function Basket(props: any) {
   /** INITIALIZATIONS **/
+  const history = useHistory();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -30,7 +37,21 @@ export default function Basket(props: any) {
     setAnchorEl(null);
   };
 
-  const processOrderHandler = async () => {};
+  const processOrderHandler = async () => {
+    try {
+      assert.ok(localStorage.getItem("member_data"), Definer.auth_err1);
+       const order = new OrderApiService();
+       await order.createOrder(cartItems);
+
+      onDeleteAll();
+      handleClose();
+
+       history.push("/orders");
+    } catch (err: any) {
+      console.log(err);
+      sweetErrorHandling(err).then();
+    }
+  };
 
   return (
     <Box className={"hover-line"}>
@@ -42,7 +63,7 @@ export default function Basket(props: any) {
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       >
-        <Badge badgeContent={1} color="secondary">
+        <Badge badgeContent={cartItems.length} color="secondary">
           <img src={"/icons/shopping-cart.svg"} />
         </Badge>
       </IconButton>

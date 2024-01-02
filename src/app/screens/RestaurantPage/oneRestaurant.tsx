@@ -420,7 +420,7 @@ const actionDispatch = (dispach: Dispatch) => ({
                 backgroundImage: `url(${serverApi}/${chosenRestaurant?.mb_image})`, 
                 
                 }}
-            >
+            >       
                 <div className={"about_left_desc"}>
                     <span>{chosenRestaurant?.mb_nick}</span>
                     <p>{chosenRestaurant?.mb_description}</p>

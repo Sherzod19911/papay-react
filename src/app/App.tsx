@@ -171,6 +171,7 @@ function App() {
         onAdd={onAdd}
         onRemove={onRemove}
         onDelete={onDelete}
+        onDeleteAll={onDeleteAll}
         />
             
       ): main_path.includes("/restaurant") ? (
@@ -188,6 +189,7 @@ function App() {
         onAdd={onAdd}
         onRemove={onRemove}
         onDelete={onDelete}
+        onDeleteAll={onDeleteAll}
         /> 
   )
        : (
@@ -204,6 +206,7 @@ function App() {
         onAdd={onAdd}
         onRemove={onRemove}
         onDelete={onDelete}
+        onDeleteAll={onDeleteAll}
         />
   )}
 
