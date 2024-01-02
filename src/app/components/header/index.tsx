@@ -69,7 +69,10 @@ import Basket from './basket';
                             </NavLink>
                     </Box>
 
-                    <Basket/>
+                    <Basket cartItems={props.cartItems} 
+                    onAdd={props.onAdd} 
+                    onRemove={props.onRemove} 
+                    onDelete={props.onDelete}/>
                     
                     {!props.verifiedMemberData ? 
 

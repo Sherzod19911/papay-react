@@ -88,8 +88,8 @@ export default function Basket(props: any) {
 
           <Box className={"orders_main_wrapper"}>
             <Box className={"orders_wrapper"}>
-              {cartItems.map((item: CartItem) => {
-                const image_path = `${serverApi}/${item.image}`
+               {cartItems?.map((item: CartItem) => {
+                const image_path = `${serverApi}/${item.image}`;  
                 return (
                   <Box className={"basket_info_box"}>
                     <div className={"cancel_btn"}>
@@ -122,7 +122,7 @@ export default function Basket(props: any) {
               })}
             </Box>
           </Box>
-          {cartItems.length > 0 ? (
+          {cartItems?.length > 0 ? (
             <Box className={"to_order_box"}>
               <span className={"price_text"}>Jami: ${totalPrice} ({itemsPrice} + {shippingPrice})</span>
               <Button
@@ -142,3 +142,4 @@ export default function Basket(props: any) {
   );
 }
     
+
