@@ -40,7 +40,7 @@ import Basket from './basket';
                     </Box>
                     {props.verifiedMemberData ? (
                      <Box className="hover-line" onClick={props.setPath}>
-                     <NavLink to="/member-page" 
+                     <NavLink to="/orders" 
                      activeClassName="underLine">
                          Buyurtma
                          </NavLink>
@@ -73,7 +73,8 @@ import Basket from './basket';
                     onAdd={props.onAdd} 
                     onRemove={props.onRemove} 
                     onDelete={props.onDelete}
-                    onDeleteAll={props.onDeleteAll}/>
+                    onDeleteAll={props.onDeleteAll}
+                    setOrderRebuild={props.setOrderRebuild}/>
                     
                     {!props.verifiedMemberData ? 
 

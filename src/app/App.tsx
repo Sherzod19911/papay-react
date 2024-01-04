@@ -32,70 +32,72 @@ import { Product } from '../css/types/product';
 //import "../app/apiServices/verify";
 
    
-function App() {          
-  /**INITIALIZATION */   
-   const [verifiedMemberData, setVerifiedMemberData] = useState<Member | null>(null); 
+
+
+
+
+function App() {
+  /**INITIALIZATION */
+  const [verifiedMemberData, setVerifiedMemberData] = useState<Member | null>(
+    null
+  );
   const [path, setPath] = useState();
   const main_path = window.location.pathname;
-  const [signUpOpen, setSignUpOpen] = useState(false); // ekranda paydo bulmaydi avtomatik
-   const[ loginOpen, setLoginOpen] = useState(false); // ekranda paydo bulmaydi avtomatik
+  const [signUpOpen, setSignUpOpen] = useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [orderRebuild, setOrderRebuild] = useState<Date>(new Date());
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
 
-   
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
-   
-   
   const cartJson: any = localStorage.getItem("cart_data");
   const current_cart: CartItem[] = JSON.parse(cartJson) ?? [];
   const [cartItems, setCartItems] = useState<CartItem[]>(current_cart);
-    useEffect (() => {     
-      console.log("=== useEffect: App ===");
-      const memberDataJson: any = localStorage.getItem("member_data")
+
+  useEffect(() => {
+    console.log("=== useEffect: App ===");
+    const memberDataJson: any = localStorage.getItem("member_data")
       ? localStorage.getItem("member_data")
       : null;
-      const member_data = memberDataJson ? JSON.parse(memberDataJson): null;
-      if(member_data) {
-        member_data.mb_image = member_data.mb_image 
-        ? `${serverApi}/${member_data.mb_image}` 
-        : "/auth/user.svg";
-        setVerifiedMemberData(member_data)
-      }
+    const member_data = memberDataJson ? JSON.parse(memberDataJson) : null;
+    if (member_data) {
+      member_data.mb_image = member_data.mb_image
+        ? `${serverApi}/${member_data.mb_image}`
+        : "/auth/13.jpg";
+      setVerifiedMemberData(member_data);
+    }       
+  }, [signUpOpen, loginOpen]);
 
-    }, [signUpOpen, loginOpen]);
-    /**HANDLERS */
-    const handleSignUpOpen = ()  =>  setSignUpOpen((true));    //  ruyxatdan utishni bossa true byulgani uchun ekranda chiqadi
-    const handleSignUpClose = ()  =>  setSignUpOpen((false));
-    const handleLoginOpen = ()  =>  setLoginOpen((true));  //  kirishni bossa true byulgani uchun ekranda chiqadi
-    const handleLoginClose = ()  =>  setLoginOpen((false));
+  /** HANDLERS */
+  const handleSignUpOpen = () => setSignUpOpen(true);
 
+  const handleSignUpClose = () => setSignUpOpen(false);
 
-    const handleLogOutClick = (event: React.MouseEvent<HTMLElement>) => {
-      setAnchorEl(event.currentTarget)
+  const handleLoginOpen = () => setLoginOpen(true);
+
+  const handleLoginClose = () => setLoginOpen(false);
+  const handleLogOutClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
   };
-
-  const handleCloseLogOut= (event: React.MouseEvent<HTMLElement>) => {
-      setAnchorEl(null);
+  const handleCloseLogOut = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(null);
   };
   const handleLogOutRequest = async () => {
-    try{
+    try {
       const memberApiService = new MemberApiService();
       await memberApiService.logOutRequest();
       await sweetTopSmallSuccessAlert("success", 700, true);
-      //assert.ok(false, "test")
-
-    }catch(err: any) {
+    } catch (err: any) {
       console.log(err);
       sweetFailureProvider(Definer.general_err1);
     }
-  }
+  };
 
   const onAdd = (product: Product) => {
-    console.log("product:", product);
-    const exist: any = cartItems.find(
+    const exist: any = cartItems?.find(
       (item: CartItem) => item._id === product._id
     );
     if (exist) {
-      const cart_updated = cartItems.map((item: CartItem) =>
+      const cart_updated = cartItems?.map((item: CartItem) =>
         item._id === product._id
           ? { ...exist, quantity: exist.quantity + 1 }
           : item
@@ -115,9 +117,8 @@ function App() {
       localStorage.setItem("cart_data", JSON.stringify(cart_updated));
     }
   };
-
   const onRemove = (item: CartItem) => {
-    const item_data: any = cartItems.find(
+    const item_data: any = cartItems?.find(
       (ele: CartItem) => ele._id === item._id
     );
     if (item_data.quantity === 1) {
@@ -136,7 +137,6 @@ function App() {
       localStorage.setItem("cart_data", JSON.stringify(cart_updated));
     }
   };
-
   const onDelete = (item: CartItem) => {
     const cart_updated = cartItems.filter(
       (ele: CartItem) => ele._id !== item._id
@@ -144,82 +144,82 @@ function App() {
     setCartItems(cart_updated);
     localStorage.setItem("cart_data", JSON.stringify(cart_updated));
   };
-
   const onDeleteAll = () => {
     setCartItems([]);
     localStorage.removeItem("cart_data");
   };
 
-
-      
-    
- return (
+  return (
     <Router>
-      { main_path =="/" ? (
-        <NavbarHome 
-        setPath={setPath}
-        handleLoginOpen = {handleLoginOpen}
-        handleSignUpOpen = {handleSignUpOpen}
-        anchorEl = {anchorEl}
-        open = {open}
-        handleLogOutClick ={handleLogOutClick}
-        handleLogOutRequest ={handleLogOutRequest}      
-        handleCloseLogOut ={handleCloseLogOut}
-
-        verifiedMemberData={verifiedMemberData}
-        cartItems={cartItems}
-        onAdd={onAdd}
-        onRemove={onRemove}
-        onDelete={onDelete}
-        onDeleteAll={onDeleteAll}
+      {main_path == "/" ? (
+        <NavbarHome
+          setPath={setPath}
+          anchorEl={anchorEl}
+          open={open}
+          handleLoginOpen={handleLoginOpen}
+          handleSignUpOpen={handleSignUpOpen}
+          handleLogOutClick={handleLogOutClick}
+          handleCloseLogOut={handleCloseLogOut}
+          handleLogOutRequest={handleLogOutRequest}
+          verifiedMemberData={verifiedMemberData}
+          cartItems={cartItems}
+          onAdd={onAdd}
+          onRemove={onRemove}
+          onDelete={onDelete}
+          onDeleteAll={onDeleteAll}
+          setOrderRebuild={setOrderRebuild}
         />
-            
-      ): main_path.includes("/restaurant") ? (
+      ) : main_path.includes("/restaurant") ? (
         <NavbarRestaurant
-        handleLoginOpen = {handleLoginOpen}
-        handleSignUpOpen = {handleSignUpOpen}
-        anchorEl = {anchorEl}
-        open = {open}
-        handleLogOutClick ={handleLogOutClick}
-        handleCloseLogOut ={handleCloseLogOut}
-        handleLogOutRequest= {handleLogOutRequest}
-
-        verifiedMemberData={verifiedMemberData}
-        cartItems={cartItems}
-        onAdd={onAdd}
-        onRemove={onRemove}
-        onDelete={onDelete}
-        onDeleteAll={onDeleteAll}
-        /> 
-  )
-       : (
-        <NavbarOthers setPath={setPath}
-        handleLoginOpen = {handleLoginOpen}
-        handleSignUpOpen = {handleSignUpOpen}
-        anchorEl = {anchorEl}
-        open = {open}
-        handleLogOutClick ={handleLogOutClick}
-        handleCloseLogOut ={handleCloseLogOut}
-
-        verifiedMemberData={verifiedMemberData}
-        cartItems={cartItems}
-        onAdd={onAdd}
-        onRemove={onRemove}
-        onDelete={onDelete}
-        onDeleteAll={onDeleteAll}
+          setPath={setPath}
+          anchorEl={anchorEl}
+          open={open}
+          handleLoginOpen={handleLoginOpen}
+          handleSignUpOpen={handleSignUpOpen}
+          handleLogOutClick={handleLogOutClick}
+          handleCloseLogOut={handleCloseLogOut}
+          handleLogOutRequest={handleLogOutRequest}
+          verifiedMemberData={verifiedMemberData}
+          cartItems={cartItems}
+          onAdd={onAdd}
+          onRemove={onRemove}
+          onDelete={onDelete}
+          onDeleteAll={onDeleteAll}
+          setOrderRebuild={setOrderRebuild}
         />
-  )}
+      ) : (
+        <NavbarOthers
+          setPath={setPath}
+          anchorEl={anchorEl}
+          open={open}
+          handleLoginOpen={handleLoginOpen}
+          handleSignUpOpen={handleSignUpOpen}
+          handleLogOutClick={handleLogOutClick}
+          handleCloseLogOut={handleCloseLogOut}
+          handleLogOutRequest={handleLogOutRequest}
+          verifiedMemberData={verifiedMemberData}
+          cartItems={cartItems}
+          onAdd={onAdd}
+          onRemove={onRemove}
+          onDelete={onDelete}
+          onDeleteAll={onDeleteAll}
+          setOrderRebuild={setOrderRebuild}
+        />
+      )}
 
- 
       <Switch>
         <Route path="/restaurant">
-          <RestaurantPage onAdd={onAdd}/>
+          <RestaurantPage onAdd={onAdd} />
         </Route>
         <Route path="/community">
           <CommunityPage />
         </Route>
         <Route path="/orders">
-          <OrdersPage />
+          <OrdersPage
+            orderRebuild={orderRebuild}
+            setOrderRebuild={setOrderRebuild}
+            verifiedMemberData={verifiedMemberData}
+          />
         </Route>
         <Route path="/member-page">
           <MemberPage />
@@ -231,27 +231,25 @@ function App() {
           <LoginPage />
         </Route>
         <Route path="/">
-          {/* <Car /> */}
           <HomePage />
         </Route>
       </Switch>
-     <Footer/>
-     <AuthenticationModal
-      loginOpen = {loginOpen}
-       handleLoginOpen = {handleLoginOpen}
-       handleLoginClose = {handleLoginClose}
-       SignUpOpen = {signUpOpen}
-       handleSignUpOpen = {handleSignUpOpen}       
-       handleSignUpClose = {handleSignUpClose}
-     />
-  </Router>
-  )
+
+      <Footer />
+      <AuthenticationModal
+        loginOpen={loginOpen}
+        handleLoginOpen={handleLoginOpen}
+        handleLoginClose={handleLoginClose}
+        signUpOpen={signUpOpen}
+        handleSignUpOpen={handleSignUpOpen}
+        handleSignUpClose={handleSignUpClose}
+      />
+    </Router>
+  );
 }
-   
+
 function Home() {
   return <h2>Home</h2>;
 }
 
 export default App;
-
-

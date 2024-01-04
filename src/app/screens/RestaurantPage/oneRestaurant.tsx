@@ -102,7 +102,7 @@ const actionDispatch = (dispach: Dispatch) => ({
 
             const restaurantService = new RestaurantApiService();
             restaurantService
-              .getRestaurants({ page: 1, limit: 10, order: "random" })
+              .getRestaurants({ page: 1, limit: 8, order: "random" })
               .then((data) => setRandomRestaurants(data))
               .catch((err) => console.log(err));
 
@@ -418,6 +418,7 @@ const actionDispatch = (dispach: Dispatch) => ({
                 <Box className={"about_left"}
                 sx={{
                 backgroundImage: `url(${serverApi}/${chosenRestaurant?.mb_image})`, 
+                
                 
                 }}
             >       

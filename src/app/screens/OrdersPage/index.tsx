@@ -1,59 +1,89 @@
 
 
-import  "../../../css/order.css";
-import Tab from '@mui/material/Tab';
-import TabContext from '@mui/lab/TabContext';
+import { Box, Container, Stack } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { Container, Stack, Box } from "@mui/material";
-
-
-import TabList from "@mui/lab/TabList";
+import "../../../css/order.css";
+import TabContext from "@mui/lab/TabContext";
+import Tab from "@mui/material/Tab";
+import Tablist from "@mui/lab/TabList";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+
 import PausedOrders from "../../components/orders/pausedOrders";
 import ProcessOrders from "../../components/orders/processOrders";
 import FinishedOrders from "../../components/orders/finishedOrders";
-
-
+import { Order} from "../../../css/types/order";
+import TabList from "@mui/lab/TabList";
 //REDUX
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  retrieveChosenRestaurant,
+  retrieveRandomRestaurants,
+  retrieveTargetProducts,
+  retrieveTargetRestaurants,
+} from "../RestaurantPage/selector";
+import { createSelector } from "reselect";
+import { Member, Restaurant } from "../../../css/types/user";
+
 import { Dispatch } from "@reduxjs/toolkit";
-import { Order } from "../../../css/types/order";
-import { setFinishedOrders, setPausedOrders, setProcessOrders } from "./slice";
-// Redux Slice
-const actionDispatch = (dispatch: Dispatch) => ({
-  setPausedOrders: (data: Order[]) => dispatch(setPausedOrders(data)),
-  setProcessOrders: (data: Order[]) => dispatch(setProcessOrders(data)),
-  setFinishedOrders: (data: Order[]) => dispatch(setFinishedOrders(data)),
+import {
+  setPausedOrders,
+  setProcessOrders,
+  setFinishedOrders,
+} from "../OrdersPage/slice";
+import { useHistory, useParams } from "react-router-dom";
+import OrderApiService from "../../apiServices/orderApiServices";
+
+// REDUX SLICE
+const actionDispatch = (dispach: Dispatch) => ({
+  setPausedOrders: (data: Order[]) => dispach(setPausedOrders(data)),
+  setProcessOrders: (data: Order[]) => dispach(setProcessOrders(data)),
+  setFinishedOrders: (data: Order[]) => dispach(setFinishedOrders(data)),
+
 });
 
+
 export function OrdersPage(props: any) {
-    /** INITIALIZATIONS **/
-    ///const [value, setValue] = useState("1");
-    const { setPausedOrders, setProcessOrders, setFinishedOrders } =
+  // INITIALIZATIONS
+  const [value, setValue] = useState("1");
+  const { setPausedOrders, setProcessOrders, setFinishedOrders } =
     actionDispatch(useDispatch());
 
-    const [value, setValue] = useState("1");
- 
+  const verifiedMemberData: Member | null = props.verifiedMemberData;
 
+  useEffect(() => {
+    const orderService = new OrderApiService();
+    orderService
+      .getMyOrders("paused")
+      .then((data) => setPausedOrders(data))
+      .catch((err) => console.log(err));
+    orderService
+      .getMyOrders("process")
+      .then((data) => setProcessOrders(data))
+      .catch((err) => console.log(err));
+    orderService
+      .getMyOrders("finished")
+      .then((data) => setFinishedOrders(data))
+      .catch((err) => console.log(err));
+  }, [props.orderRebuild]);
 
-  /** HANDLERS **/
+  // HANDLERS
   const handleChange = (event: any, newValue: string) => {
-    console.log("newValue", newValue);
     setValue(newValue);
   };
-return (
-    <div className={"order_page"}>
+
+  return (
+    <div className="order_page">
       <Container
-        style={{ display: "flex", flexDirection: "row" }}      
-        sx={{ mt: "50px", mb: "50px" }}
+        maxWidth="lg"
+        style={{ display: "flex", flexDirection: "row" }}
+        sx={{ mt: "54px", mb: "54px" }}
       >
         <Stack className={"order_left"}>
           <TabContext value={value}>
-            <Box className={"order_nav_frame"}>
+            <Box className="order_nav_frame">
               <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                 <TabList
                   onChange={handleChange}
-               
                   aria-label="basic tabs example"
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
@@ -63,24 +93,29 @@ return (
                 </TabList>
               </Box>
             </Box>
-            <Stack className={"order_main_content"}>
-            <PausedOrders />
-            <ProcessOrders />
-            <FinishedOrders />
-            
+            <Stack className="order_main_content">
+              <PausedOrders setOrderRebuild={props.setOrderRebuild} />
+              <ProcessOrders setOrderRebuild={props.setOrderRebuild} />
+              <FinishedOrders setOrderRebuild={props.setOrderRebuild} />
             </Stack>
           </TabContext>
         </Stack>
-        <Stack className={"order_right"}>
-          <Box className={"order_info_box"}>
-            <Box
+
+      
+
+
+
+
+    <Stack className={"order_right"}>
+           <Box className={"order_info_box"}>
+             <Box
               display={"flex"}
               flexDirection={"column"}
               alignItems={"center"}
             >
               <div className={"order_user_img"}>
                 <img
-                src={"/others/user.svg"}   
+               src={verifiedMemberData?.mb_image}
                  
                 />
                 <div className={"order_user_icon_box"}>
@@ -91,10 +126,10 @@ return (
                 </div>
               </div>
               <span className={"order_user_name"}>
-                Jonny
+                {verifiedMemberData?.mb_nick}
               </span>
               <span className={"order_user_prof"}>
-              "Foydalanuvchi"
+              {verifiedMemberData?.mb_type ?? 'Foydalanuvchi'}
               </span>
             </Box>
             <Box
@@ -107,7 +142,7 @@ return (
                 <LocationOnIcon />
               </div>
               <div className={"spec_address_txt"}>
-               "Samarkand City"
+              {verifiedMemberData?.mb_address ?? "manzil kiritilmagan"}
               </div>
             </Box>
           </Box>
@@ -156,8 +191,3 @@ return (
     </div>
   );
 }
-
-
-
-
-        

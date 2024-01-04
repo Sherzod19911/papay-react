@@ -54,6 +54,7 @@ export function BestDishes() {
         <Stack flexDirection={"column"} alignItems={"center"}>
           <Box className="category_title">Trendagi Ovqatlar</Box>
           <Stack sx={{ mt: "43px" }} flexDirection={"row"}>
+            
             {trendProducts.map((product: Product) => {
               const image_path = `${serverApi}/${product.product_images[0]}`;
               console.log("images::",image_path); // Check the output in the console to ensure it forms a correct URL.
