@@ -8,10 +8,34 @@ import Checkbox from "@mui/material/Checkbox";
 import moment from "moment";
 import { BoArticle } from "../../../css/types/boArticle";
 import { serverApi } from "../../../lib/config";
+import assert from "assert";
+import { Definer } from "../../../lib/Definer";
+import { sweetErrorHandling, sweetTopSmallSuccessAlert } from "../../../lib/sweetAlert";
+import MemberApiService from "../../apiServices/memberApiServices";
 
 
 
 export function TargetArticles (props:any) {
+
+   
+  /**HANDLERS */
+  const targetLikeHandler = async (e: any) => {
+    try {
+      assert.ok(localStorage.getItem("member_data"), Definer.auth_err1);
+
+      const memberService = new MemberApiService();
+      const like_result = await memberService.memberLikeTarget({
+        like_ref_id: e.target.id,
+        group_type: "community",
+      });
+      assert.ok(like_result, Definer.general_err1);
+      await sweetTopSmallSuccessAlert("success", 700, false);
+      props.setArticlesRebuild(new Date());
+    } catch (err: any) {
+      console.log(err);
+      sweetErrorHandling(err).then();
+    }
+  };
     return (
         <Stack>
       {props.targetBoArticles?.map((article: BoArticle) => {
@@ -68,7 +92,7 @@ export function TargetArticles (props:any) {
                       checkedIcon={<Favorite style={{ color: "red" }} />}
                       id={article?._id}
                       
-                      
+                      onClick={targetLikeHandler}
                       checked={
                         article?.me_liked && article.me_liked[0]?.my_favorite
                           ? true
