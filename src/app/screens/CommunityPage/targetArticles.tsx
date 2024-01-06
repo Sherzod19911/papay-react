@@ -6,14 +6,16 @@ import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
 import Checkbox from "@mui/material/Checkbox";
 import moment from "moment";
+import { BoArticle } from "../../../css/types/boArticle";
+import { serverApi } from "../../../lib/config";
 
 
 
 export function TargetArticles (props:any) {
     return (
         <Stack>
-      {props.targetBoArticles?.map((article: any, index:string) => {
-        const art_image_url = "/community/default_article.svg";    
+      {props.targetBoArticles?.map((article: BoArticle) => {
+        const art_image_url = article?.art_image ? `${serverApi}/${article.art_image}` : "/community/default_article.svg";    
           
         return (
             <Link
@@ -33,7 +35,7 @@ export function TargetArticles (props:any) {
                   style={{ borderRadius: "50%", backgroundSize: "cover" }}
                 />
                 <span className={"all_article_author_user"}>
-                 Aziza
+                {article?.member_data.mb_nick}
                 </span>
                 </Box>
                 <Box
@@ -41,8 +43,8 @@ export function TargetArticles (props:any) {
                 flexDirection={"column"}
                 sx={{ mt: "15px" }}
               >
-                 <span className={"all_article_title"}>evalution</span>
-                <p className={"all_article_desc"}>Texas De Brazil Zur Restaurant</p>
+                 <span className={"all_article_title"}>{article?.bo_id}</span>
+                <p className={"all_article_desc"}>{article?.art_subject}</p>
               </Box>
               </Box>
               <Box
@@ -64,6 +66,7 @@ export function TargetArticles (props:any) {
                       sx={{ ml: "40px" }}
                       icon={<FavoriteBorder/>}
                       checkedIcon={<Favorite style={{ color: "red" }} />}
+                      id={article?._id}
                       
                       
                       checked={
