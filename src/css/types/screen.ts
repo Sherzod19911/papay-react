@@ -2,8 +2,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { BoArticle } from "./boArticle";
 import { Product } from "./product";
-import { Restaurant } from "./user";
+import { Member, Restaurant } from "./user";
 import { Order } from "./order";
+import { Follower, Following } from "./follow";
 
        /*react app state*/
 export interface AppRootState {
@@ -11,6 +12,7 @@ export interface AppRootState {
     restaurantPage: RestaurantPageState;
     ordersPage: OrdersPageState;
     communityPage: CommunityPageState;
+    memberPage: MemberPageState
 
 
 }
@@ -43,3 +45,11 @@ export interface OrdersPageState {
 export interface CommunityPageState {
     targetBoArticles: BoArticle[]
   }
+  /**MEMBER PAGE */
+export interface MemberPageState {
+  chosenMember: Member | null;
+  chosenMemberBoArticles: BoArticle[];
+  chosenSingleBoArticle: BoArticle | null;
+  memberFollowers: Follower[];
+  memberFollowings: Following[];
+}
