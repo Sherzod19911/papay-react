@@ -22,8 +22,73 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import TViewer from "../../components/tuiEditor/TViewver";
 import { TuiEditor } from "../../components/tuiEditor/TuiEditor";
 
+//REDUX
+import { useDispatch, useSelector } from "react-redux";
+import {
+  retrieveChosenMember,
+  retrieveChosenSingleBoArticle,
+  retrieveChosenMemberBoArticles,
+} from "./selector";
+import { createSelector } from "reselect";
+
+
+import assert from "assert";
+
+
+import { useHistory } from "react-router-dom";
+import { Dispatch } from "@reduxjs/toolkit";
+import {
+  setChosenMember,
+  setChosenMemberBoArticles,
+  setChosenSingleBoArticle,
+} from "./slice";
+import { BoArticle } from "../../../css/types/boArticle";
+import { Member } from "../../../css/types/user";
+
+// REDUX SLICE
+const actionDispatch = (dispach: Dispatch) => ({
+  setChosenMember: (data: Member) => dispach(setChosenMember(data)),
+  setChosenMemberBoArticles: (data: BoArticle[]) =>
+    dispach(setChosenMemberBoArticles(data)),
+  setChosenSingleBoArticle: (data: BoArticle) =>
+    dispach(setChosenSingleBoArticle(data)),
+});
+
+// REDUX SELECTOR
+const chosenMemberRetriever = createSelector(
+  retrieveChosenMember,
+  (chosenMember) => ({
+    chosenMember,
+  })
+);
+const chosenMemberBoArticlesRetriever = createSelector(
+  retrieveChosenSingleBoArticle,
+  (chosenMemberBoArticles) => ({
+    chosenMemberBoArticles,
+  })
+);
+const chosenSingleBoArticlesRetriever = createSelector(
+  retrieveChosenMemberBoArticles,
+  (chosenSingleBoArticles) => ({
+    chosenSingleBoArticles,
+  })
+)
+
 export function VisitMyPage(props: any) {
     //INITIALIZIATION
+   
+  const {
+    setChosenMember,
+    setChosenMemberBoArticles,
+    setChosenSingleBoArticle,
+  } = actionDispatch(useDispatch());
+  const { chosenMember } = useSelector(chosenMemberRetriever);
+  const { chosenMemberBoArticles } = useSelector(
+    chosenMemberBoArticlesRetriever
+  );
+  const { chosenSingleBoArticles } = useSelector(
+    chosenSingleBoArticlesRetriever
+  );
     const [value, setValue] = useState("3");                              
                 
     // HANDLERS

@@ -21,8 +21,72 @@ import { MemberFollowing } from "./memberFollowing";
 import { MySettings } from "./mySettings";
 import TViewer from "../../components/tuiEditor/TViewver";
 
+//REDUX
+import { useDispatch, useSelector } from "react-redux";
+import {
+  retrieveChosenMember,
+  retrieveChosenSingleBoArticle,
+  retrieveChosenMemberBoArticles,
+} from "./selector";
+import { createSelector } from "reselect";
+import { Member } from "../../../css/types/user";
+import { serverApi } from "../../../lib/config";
+
+import assert from "assert";
+import { Definer } from '../../../lib/Definer';
+import MemberApiService from "../../apiServices/memberApiServices";
+import { useHistory } from "react-router-dom";
+import { Dispatch } from "@reduxjs/toolkit";
+import {
+  setChosenMember,
+  setChosenMemberBoArticles,
+  setChosenSingleBoArticle,
+} from "./slice";
+import { BoArticle } from "../../../css/types/boArticle";
+
+// REDUX SLICE
+const actionDispatch = (dispach: Dispatch) => ({
+  setChosenMember: (data: Member) => dispach(setChosenMember(data)),
+  setChosenMemberBoArticles: (data: BoArticle[]) =>
+    dispach(setChosenMemberBoArticles(data)),
+  setChosenSingleBoArticle: (data: BoArticle) =>
+    dispach(setChosenSingleBoArticle(data)),
+});
+
+// REDUX SELECTOR
+const chosenMemberRetriever = createSelector(
+  retrieveChosenMember,
+  (chosenMember) => ({
+    chosenMember,
+  })
+);
+const chosenMemberBoArticlesRetriever = createSelector(
+  retrieveChosenSingleBoArticle,
+  (chosenMemberBoArticles) => ({
+    chosenMemberBoArticles,
+  })
+);
+const chosenSingleBoArticlesRetriever = createSelector(
+  retrieveChosenMemberBoArticles,
+  (chosenSingleBoArticles) => ({
+    chosenSingleBoArticles,
+  })
+)
+
 export function VisitOtherPage(_props: any) {
   //INITIALIZIATION
+  const {
+    setChosenMember,
+    setChosenMemberBoArticles,
+    setChosenSingleBoArticle,
+  } = actionDispatch(useDispatch());
+  const { chosenMember } = useSelector(chosenMemberRetriever);
+  const { chosenMemberBoArticles } = useSelector(
+    chosenMemberBoArticlesRetriever
+  );
+  const { chosenSingleBoArticles } = useSelector(
+    chosenSingleBoArticlesRetriever
+  );
   const [value, setValue] = useState("4");         
 
   // HANDLERS
