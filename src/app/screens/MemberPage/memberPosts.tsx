@@ -14,6 +14,7 @@ import { sweetErrorHandling, sweetTopSmallSuccessAlert } from "../../../lib/swee
 import { Definer } from "../../../lib/Definer";
 import assert from "assert";
 import { setTargetBoArticles } from "../CommunityPage/slice";
+import { Article } from "@mui/icons-material";
 
 export function MemberPosts(props: any) {
   const {
@@ -21,50 +22,65 @@ export function MemberPosts(props: any) {
     renderChosenArticleHandler,
     setArticlesRebuild,
   } = props;
+  
+        /** HANDLERS */
+        const targetLikeHandler = async (e: any) => {
+          try {
+            e.stopPropagation();
+            assert.ok(verifiedMemberData, Definer.auth_err1);
+      
+            const memberService = new MemberApiService();
+            const like_result = await memberService.memberLikeTarget({
+              like_ref_id: e.target.id,
+              group_type: "community",
+            });
+            assert.ok(like_result, Definer.general_err1);
+      
+            await sweetTopSmallSuccessAlert("success", 700, false);
+            setArticlesRebuild(new Date());
+          } catch (err: any) {
+            console.log(err);
+            sweetErrorHandling(err).then();
+          }
+        };
   return (
     <Box className={"post_content"}>
+       
+
       {chosenMemberBoArticles?.map((article: BoArticle) => {
         const image_path = article.art_image 
         ? `${serverApi}/${article.art_image}` 
-        : '/community/default_article.svg';
+        : '/icons/default_article.svg';
 
-        /** HANDLERS */
-  const targetLikeHandler = async (e: any) => {
-    try {
-      e.stopPropagation();
-      assert.ok(verifiedMemberData, Definer.auth_err1);
-
-      const memberService = new MemberApiService();
-      const like_result = await memberService.memberLikeTarget({
-        like_ref_id: e.target.id,
-        group_type: "community",
-      });
-      assert.ok(like_result, Definer.general_err1);
-
-      await sweetTopSmallSuccessAlert("success", 700, false);
-      setArticlesRebuild(new Date());
-    } catch (err: any) {
-      console.log(err);
-      sweetErrorHandling(err).then();
-    }
-  };
         return (
-          <Stack className="all_article_box" sx={{ cursor: "pointer" }}>
+          <Stack className="all_article_box" sx={{ cursor: "pointer" }} 
+          onClick={() => renderChosenArticleHandler(article?._id)}
+          >
             <Box
               className={"all_article_img"}
-              sx={{ backgroundImage: `url{${image_path}}` }}
+              sx={{ backgroundImage: `url(${image_path})` }}
             ></Box>
             <Box className={"all_article_container"}>
               <Box alignItems={"center"} display={"flex"}>
-                <img
+              <img
                   src={
                     article?.member_data?.mb_image
-                    ? `${serverApi}"/${article.member_data.mb_image}`
-                    : "/icons/default_img.svg"}
+                      ? `${serverApi}/${article.member_data.mb_image}`
+                      : "/auth/default_user.svg"
+                  }
                   width={"35px"}
                   height={"35px"}
                   style={{ borderRadius: "50%", backgroundSize: "cover" }}
                 />
+                {/* <img
+                  src={
+                    article?.member_data?.mb_image
+                    ? `${serverApi}"/${article.member_data.mb_image}`
+                    : "/icons/default_user.svg"}
+                  width={"35px"}
+                  height={"35px"}
+                  style={{ borderRadius: "50%", backgroundSize: "cover" }}
+                /> */}
                 <span className="all_article_author_user">
                   {article?.member_data?.mb_nick}
                   </span>
@@ -103,7 +119,7 @@ export function MemberPosts(props: any) {
                       id={article?._id}
                       checkedIcon={<Favorite style={{ color: "red" }} />}
                       checked={
-                        article?.me_liked && article.me_liked[0]?.my_favorite 
+                        article?.me_liked && article?.me_liked[0]?.my_favorite 
                         ? true 
                         : false
                       }

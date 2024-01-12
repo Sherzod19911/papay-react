@@ -133,7 +133,7 @@ export function VisitOtherPage(_props: any) {
                 <TabPanel value={"2"}>
                   <Box className={"menu_name"}>Followers</Box>
                   <Box className={"menu_content"}>
-                    <MemberFollowers actions_enabled={false} />
+                    <MemberFollowing actions_enabled={false} />
                   </Box>
                 </TabPanel>
 

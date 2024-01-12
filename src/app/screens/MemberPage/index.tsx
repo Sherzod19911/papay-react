@@ -25,7 +25,8 @@ export function MemberPage(props: any) {
         <div className="restaurant_page">
             <Switch>
                 <Route path={`${member.path}/other`}>
-                    <VisitOtherPage verifiedMemberData={verifiedMemberData} 
+                    <VisitOtherPage 
+                    verifiedMemberData={verifiedMemberData} 
                     chosen_mb_id={chosen_mb_id} 
                     chosen_art_id={chosen_art_id}
                     />
