@@ -46,6 +46,8 @@ const memberFollowingsRetriever = createSelector(
 
 
 export function MemberFollowing(props: any) {
+  const history = useHistory();
+
   const {followRebuild, setFollowRebuild, mb_id} = props;
   const { setMemberFollowings } = actionDispatch(useDispatch());
   const { memberFollowings } = useSelector(memberFollowingsRetriever);
@@ -95,6 +97,12 @@ export function MemberFollowing(props: any) {
     followingsSearchObj.page = value;
     setFollowingsSearchObj({ ...followingsSearchObj });
   };
+
+  const visitMemberHandler = (mb_id: string) => {
+    history.push(`/member-page/other?mb_id=${mb_id}`);
+    document.location.reload()
+  };
+
   return (
     <Stack>
       {memberFollowings.map((following: Following) => {
@@ -103,7 +111,12 @@ export function MemberFollowing(props: any) {
         : "/icons/default_img.svg";
         return (
           <Box className={"follow_box"}>
-            <Avatar src={image_url} sx={{ width: 89, height: 89 }} />
+            <Avatar
+              style={{cursor: "pointer"}}
+              onClick={() => visitMemberHandler(following?.follow_id)} 
+            src={image_url} 
+            sx={{ width: 89, 
+            height: 89 }} />
             <div
               style={{
                 width: "400px",
@@ -113,8 +126,16 @@ export function MemberFollowing(props: any) {
                 height: "85%",
               }}
             >
-              <span className="username_text">{following?.follow_member_data?.mb_type}</span>
-              <span className="name_text">{following?.follow_member_data?.mb_nick}</span>
+              <span className="username_text">
+                {following?.follow_member_data?.mb_type}
+                </span>
+              <span className="name_text"
+                style={{cursor: "pointer"}}
+                onClick={() => visitMemberHandler(following?.follow_id)}
+                >
+                
+                {following?.follow_member_data?.mb_nick}
+                </span>
             </div>
             {props.actions_enabled &&(
               

@@ -54,6 +54,7 @@ const memberFollowersRetriever = createSelector(
 
 export function MemberFollowers(props: any) {
   //Initilaization
+  const history = useHistory();
   const {followRebuild, setFollowRebuild, mb_id} = props;
   const { setMemberFollowers } = actionDispatch(useDispatch());
   const { memberFollowers } = useSelector(memberFollowersRetriever);
@@ -92,6 +93,12 @@ export function MemberFollowers(props: any) {
   const handlePaginationChange = (event: any, value: number) => {
     followersSearchObj.page = value;
     setFollowersSearchObj({ ...followersSearchObj });
+
+    const visitMemberHandler = (mb_id: string) => {
+      history.push(`/member-page/other?mb_id=${mb_id}`);
+      document.location.reload()
+    };
+  
  
   return (
     // <Stack>
@@ -106,7 +113,13 @@ export function MemberFollowers(props: any) {
         : "/auth/default_user.svg";
         return (
           <Box className={"follow_box"}>
-            <Avatar src={image_url} sx={{ width: 89, height: 89 }} />
+            <Avatar 
+            alt={""}
+            style={{cursor: "pointer"}}
+            src={image_url} 
+            sx={{ width: 89, height: 89 }} 
+            onClick={() => visitMemberHandler(follower?.subscriber_id)}
+          />
             <div
               style={{
                 width: "400px",
@@ -117,13 +130,17 @@ export function MemberFollowers(props: any) {
               }}
             >
               {/* <span className="username_text">{follower?.subscriber_member_data?.mb_type}</span> */}
-              <span className={"username_text"}>
+              <span className={"username_text"}
+             
+              >
                 {follower?.subscriber_member_data?.mb_type}
               </span>
               {/* <span className="name_text">{follower?.subscriber_member_data?.mb_nick}</span> */}
               <span
                 className={"name_text"}
-                style={{ cursor: "pointer" }}
+                style={{cursor: "pointer"}}
+                onClick={() => visitMemberHandler(follower?.subscriber_id)}
+                
                 //onClick={() => visitMemberHandler(follower?.subscriber_id)}
               >
                 {follower?.subscriber_member_data?.mb_nick}
