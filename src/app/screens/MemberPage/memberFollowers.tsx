@@ -54,7 +54,7 @@ const memberFollowersRetriever = createSelector(
 
 export function MemberFollowers(props: any) {
   //Initilaization
-  const {followdRebuild, setFollowRebuild, mb_id} = props;
+  const {followRebuild, setFollowRebuild, mb_id} = props;
   const { setMemberFollowers } = actionDispatch(useDispatch());
   const { memberFollowers } = useSelector(memberFollowersRetriever);
   const [followersSearchObj, setFollowersSearchObj ] = useState<FollowSearchObj>
@@ -69,7 +69,7 @@ export function MemberFollowers(props: any) {
       .getMemberFollowers(followersSearchObj)
       .then((data) => setMemberFollowers(data))
       .catch((err) => console.log(err));
-  }, [followersSearchObj, followdRebuild]);
+  }, [followersSearchObj, followRebuild]);
 
    /** HANDLERS */
    const subscribeHandler = async (e: any, id: string) => {
@@ -81,7 +81,7 @@ export function MemberFollowers(props: any) {
       await followService.subscribe(id);
 
       await sweetTopSmallSuccessAlert("subscribed successfully", 700, false);
-      setFollowRebuild(!followdRebuild);
+      setFollowRebuild(!followRebuild);
       
     } catch (err: any) {
       console.log(err);

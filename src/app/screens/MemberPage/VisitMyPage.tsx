@@ -198,8 +198,8 @@ export function VisitMyPage(props: any) {
                 <TabPanel value={"2"}>
                   <Box className={"menu_name"}>Followers</Box>
                   <Box className={"menu_content"}>
-                    
-                    <MemberFollowers 
+                    {/* @ts-ignore */}
+                    <MemberFollowers
                       actions_enabled={true}
                       followRebuild={followRebuild}
                       setFollowRebuild={setFollowRebuild}

@@ -16,7 +16,6 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import TabList from "@mui/lab/TabList";
 import { MemberPosts } from "./memberPosts";
-import { MemberFollowers } from "./memberFollowers";
 import { MemberFollowing } from "./memberFollowing";
 import { MySettings } from "./mySettings";
 import TViewer from "../../components/tuiEditor/TViewver";
@@ -42,7 +41,11 @@ import {
   setChosenMemberBoArticles,
   setChosenSingleBoArticle,
 } from "./slice";
-import { BoArticle } from "../../../css/types/boArticle";
+import { BoArticle, SearchMemberArticlesObj } from "../../../css/types/boArticle";
+import CommunityApiService from "../../apiServices/communityApiService";
+import { sweetErrorHandling, sweetTopSmallSuccessAlert } from "../../../lib/sweetAlert";
+import { MemberFollowers } from "./memberFollowers";
+import FollowApiService from "../../apiServices/followApiService";
 
 // REDUX SLICE
 const actionDispatch = (dispach: Dispatch) => ({
@@ -73,8 +76,10 @@ const chosenSingleBoArticlesRetriever = createSelector(
   })
 )
 
-export function VisitOtherPage(_props: any) {
+export function VisitOtherPage(props: any) {
   //INITIALIZIATION
+  const history = useHistory();
+  const { verifiedMemberData, chosen_mb_id, chosen_art_id } = props;
   const {
     setChosenMember,
     setChosenMemberBoArticles,
@@ -87,11 +92,103 @@ export function VisitOtherPage(_props: any) {
   const { chosenSingleBoArticles } = useSelector(
     chosenSingleBoArticlesRetriever
   );
-  const [value, setValue] = useState("4");         
+  const [value, setValue] = useState("4"); 
+  const [memberArticleSearchObj, setMemberArticleSearchObj] =   
+  useState<SearchMemberArticlesObj>({
+    mb_id: chosen_mb_id,
+    page: 1,
+    limit: 1,
+  });
+  const [articlesRebuild, setArticlesRebuild] = useState<Date>(new Date());
+  const [followRebuild, setFollowRebuild] = useState<boolean>(false);
+  
+  useEffect(() => {
+    if (chosen_mb_id === verifiedMemberData?._id) {
+      history.push("/member-page");
+    }
+    const communityService = new CommunityApiService();
+    if (chosen_art_id) {
+      communityService
+        .getChosenArticle(chosen_art_id)
+        .then((data) => {
+          setChosenSingleBoArticle(data);
+          setValue("4");
+        })
+        .catch((err) => console.log(err));
+    }
+    communityService
+      .getMemberCommunityArticles(memberArticleSearchObj)
+      .then((data) => setChosenMemberBoArticles(data))
+      .catch((err) => console.log(err));
+  }, [memberArticleSearchObj, chosen_mb_id, articlesRebuild]);
+
+  useEffect(() => {
+    if (chosen_mb_id === verifiedMemberData?._id) {
+      history.push("/member-page");
+    }
+
+    const memberService = new MemberApiService();
+    memberService
+      .getChosenMember(memberArticleSearchObj.mb_id)
+      .then((data) => setChosenMember(data))
+      .catch((err) => console.log(err));
+  }, [chosen_mb_id, verifiedMemberData, followRebuild]);
+
+     
 
   // HANDLERS
   const handleChange = (_event: any, newValue: string) => {
     setValue(newValue);
+  };
+  
+  const handlePaginationChange = (event: any, value: number) => {
+    memberArticleSearchObj.page = value;
+    setMemberArticleSearchObj({ ...memberArticleSearchObj });
+  };
+
+  const renderChosenArticleHandler = async (art_id: string) => {
+    try {
+      const communityService = new CommunityApiService();
+      communityService
+        .getChosenArticle(art_id)
+        .then((data) => {
+          setChosenSingleBoArticle(data);
+          setValue("4");
+        })
+        .catch((err) => console.log(err));
+    } catch (err: any) {
+      console.log(err);
+      sweetErrorHandling(err).then();
+    }
+  };
+
+  const subscribeHandler = async (e: any) => {
+    try {
+      assert.ok(verifiedMemberData, Definer.auth_err1);
+
+      const followService = new FollowApiService();
+      await followService.subscribe(e.target.value);
+
+      await sweetTopSmallSuccessAlert("subscribed successfully", 700, false);
+      setFollowRebuild(!followRebuild);
+    } catch (err: any) {
+      console.log(err);
+      sweetErrorHandling(err).then();
+    }
+  };
+  const unsubscribeHandler = async (e: any) => {
+    try {
+      assert.ok(verifiedMemberData, Definer.auth_err1);
+
+      const followService = new FollowApiService();
+      await followService.unsubscribe(e.target.value);
+
+      await sweetTopSmallSuccessAlert("unsubscribed successfully", 700, false);
+      setFollowRebuild(!followRebuild);
+    } catch (err: any) {
+      console.log(err);
+      sweetErrorHandling(err).then();
+    }
   };
 
   return (
@@ -104,8 +201,14 @@ export function VisitOtherPage(_props: any) {
                 <TabPanel value="1">
                   <Box className="menu_name">Mening Maqolalarim</Box>
                   <Box className="menu_content">
-                    <MemberPosts />
-                    <Stack
+                    <MemberPosts 
+                     chosenMemberBoArticles={chosenMemberBoArticles}
+                     renderChosenArticleHandler={renderChosenArticleHandler}
+                     setArticlesRebuild={setArticlesRebuild}/>
+
+                     //pagination
+
+                   <Stack
                       sx={{ my: "40px" }}
                       direction={"row"}
                       alignItems={"center"}
@@ -113,8 +216,12 @@ export function VisitOtherPage(_props: any) {
                     >
                       <Box className={"bottom_box"}>
                         <Pagination
-                          count={3}
-                          page={1}
+                          count={
+                            memberArticleSearchObj.page >= 3
+                              ? memberArticleSearchObj.page + 1
+                              : 3
+                          }
+                          page={memberArticleSearchObj.page}
                           renderItem={(item) => (
                             <PaginationItem
                               components={{
@@ -125,6 +232,7 @@ export function VisitOtherPage(_props: any) {
                               color="secondary"
                             />
                           )}
+                          onChange={handlePaginationChange}
                         />
                       </Box>
                     </Stack>
@@ -133,21 +241,33 @@ export function VisitOtherPage(_props: any) {
                 <TabPanel value={"2"}>
                   <Box className={"menu_name"}>Followers</Box>
                   <Box className={"menu_content"}>
-                    <MemberFollowing actions_enabled={false} />
+                    {/* @ts-ignore */}
+                    <MemberFollowers
+                    actions_enabled={false} 
+                    followRebuild={followRebuild}
+                   setFollowRebuild={setFollowRebuild}
+                    mb_id = {chosen_mb_id}
+                    />
                   </Box>
                 </TabPanel>
 
                 <TabPanel value={"3"}>
                   <Box className={"menu_name"}>Following</Box>
                   <Box className={"menu_content"}>
-                    <MemberFollowing actions_enabled={false} />
+                    <MemberFollowing 
+                    actions_enabled={false} 
+                    followRebuild={followRebuild}
+                    setFollowRebuild={setFollowRebuild}
+                    mb_id = {chosen_mb_id}
+
+                    />
                   </Box>
                 </TabPanel>
 
                 <TabPanel value={"4"}>
                   <Box className={"menu_name"}>Tanlangan Maqola</Box>
                   <Box className={"menu_content"}>
-                  <TViewer/>
+                  <TViewer chosenSingleBoArticles={chosenSingleBoArticles}/>
                   </Box>
                 </TabPanel>
               </Box>
@@ -169,8 +289,8 @@ export function VisitOtherPage(_props: any) {
                       <img src="/icons/default_img.svg" alt="" />
                     </div>
                   </div>
-                  <span className="order_user_name">Jonny</span>
-                  <span className="order_user_prof">USER</span>
+                  <span className="order_user_name">{chosenMember?.mb_nick}</span>
+                  <span className="order_user_prof">{chosenMember?.mb_type}</span>
                 </Box>
                 <Box className={"user_media_box"}>
                   <FacebookIcon />
@@ -179,10 +299,11 @@ export function VisitOtherPage(_props: any) {
                   <YouTubeIcon />
                 </Box>
                 <Box className={"user_media_box"}>
-                  <p className="follows">Followers: 3</p>
-                  <p className="follows">Followings: 2</p>
+                  <p className="follows">Followers: {chosenMember?.mb_subscriber_cnt}</p>
+                  <p className="follows">Followings: {chosenMember?.mb_follow_cnt}</p>
                 </Box>
-                <p className="user_desc">"Qo'shimcha ma'lumot kiritilmagan"</p>
+                <p className="user_desc">{chosenMember?.mb_description ?? "Qo'shimcha ma'lumot kiritilmagan" }
+                </p>
                 <Box
                   display={"flex"}
                   justifyContent={"flex-end"}
@@ -192,14 +313,16 @@ export function VisitOtherPage(_props: any) {
                     onChange={handleChange}
                     aria-label="lab API tabs example"
                   >
-                    {true ? (
+                    {chosenMember?.me_followed && chosenMember.me_followed[0]?.my_following ? (
                       <Tab
                         style={{ flexDirection: "column" }}
                         value={"4"}
                         component={() => (
                           <Button
+                          value={chosenMember?._id}
                             variant="contained"
                             style={{ backgroundColor: "#f70909b8" }}
+                            onClick={unsubscribeHandler}
                           >
                             BEKOR QILISH
                           </Button>
@@ -211,8 +334,10 @@ export function VisitOtherPage(_props: any) {
                         value={"4"}
                         component={() => (
                           <Button
+                          value={chosenMember?._id}
                             variant="contained"
                             style={{ backgroundColor: "#30945e" }}
+                            onClick={subscribeHandler}
                           >
                             FOLLOW QILISH
                           </Button>
