@@ -359,7 +359,7 @@ export function VisitMyPage(props: any) {
                     value={"3"}
                     component={() => (
                       <div
-                        className={`menu_box ${value}`}
+                        className={`menu_box`}
                         onClick={() => setValue("3")}
                       >
                         <img src="/icons/user.svg" alt="" />
