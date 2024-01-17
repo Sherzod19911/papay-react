@@ -29,7 +29,7 @@ export  interface SearchArticlesObj {
       bo_id: any;
       page: number,
       limit: number;
-      order?: number | null;
+      order?: string | null;
 
 }
 
