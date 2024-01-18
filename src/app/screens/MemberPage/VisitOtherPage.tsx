@@ -44,8 +44,13 @@ import {
 import { BoArticle, SearchMemberArticlesObj } from "../../../css/types/boArticle";
 import CommunityApiService from "../../apiServices/communityApiService";
 import { sweetErrorHandling, sweetTopSmallSuccessAlert } from "../../../lib/sweetAlert";
-import { MemberFollowers } from "./memberFollowers";
 import FollowApiService from "../../apiServices/followApiService";
+import { verifiedMemberData } from "../../apiServices/verify";
+import { MemberFollowers } from "./memberFollowers";
+
+
+
+
 
 // REDUX SLICE
 const actionDispatch = (dispach: Dispatch) => ({

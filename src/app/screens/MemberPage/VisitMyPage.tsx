@@ -54,7 +54,6 @@ import { MemberFollowers } from "./memberFollowers";
 
 
 
-
 // REDUX SLICE
 const actionDispatch = (dispach: Dispatch) => ({
   setChosenMember: (data: Member) => dispach(setChosenMember(data)),
